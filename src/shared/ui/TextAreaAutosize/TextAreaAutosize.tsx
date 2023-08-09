@@ -23,7 +23,7 @@ export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
       value={value}
       onChange={onChangeHandler}
       minRows={2}
-      cols={50}
+      cols={40}
       style={{ resize: "none" }}
     />
   );
