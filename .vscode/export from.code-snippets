@@ -1,0 +1,7 @@
+{
+  "Export from": {
+    "scope": "typescript,javascript",
+    "prefix": "ex",
+    "body": ["export { $2 } from './$1';"]
+  }
+}
