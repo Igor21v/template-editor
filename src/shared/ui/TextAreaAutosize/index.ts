@@ -1,0 +1,1 @@
+export { TextAreaAutosize } from "./TextAreaAutosize";
