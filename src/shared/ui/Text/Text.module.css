@@ -1,0 +1,69 @@
+.primary .title {
+  color: var(--primary-color);
+}
+.primary .text {
+  color: var(--secondary-color);
+}
+.error .title {
+  color: var(--red-light-color);
+}
+.error .text {
+  color: var(--red-dark-color);
+}
+.success .title {
+  color: var(--green-light-color);
+}
+.success .text {
+  color: var(--green-dark-color);
+}
+.inverted .title {
+  color: var(--inverted-primary-color);
+}
+.inverted .text {
+  color: var(--inverted-secondary-color);
+}
+.inverted_bright .title {
+  color: var(--inverted-primary-color);
+}
+.inverted_bright .text {
+  color: var(--inverted-primary-color);
+}
+.bright .title {
+  color: var(--primary-color);
+}
+.bright .text {
+  color: var(--primary-color);
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.center {
+  text-align: center;
+}
+.size_s .title {
+  font: var(--font-m);
+}
+.size_s .text {
+  font: var(--font-s);
+}
+.size_m .title {
+  font: var(--font-l);
+}
+.size_m .text {
+  font: var(--font-m);
+}
+.size_l .title {
+  font: var(--font-xl);
+}
+.size_l .text {
+  font: var(--font-l);
+}
+.italic .text {
+  font-style: italic;
+}
+.minLineHeight .title {
+  line-height: 1.2;
+}

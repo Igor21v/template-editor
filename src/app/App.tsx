@@ -2,7 +2,7 @@ import { MainPage } from "../pages/MainPage";
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <MainPage />
     </div>
   );

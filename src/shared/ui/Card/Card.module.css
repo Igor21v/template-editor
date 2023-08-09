@@ -1,0 +1,20 @@
+.Card {
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.normal {
+    background: var(--card-bg);
+}
+
+.outlined {
+    border: 1px solid var(--primary-color);
+}
+
+.max {
+    width: 100%;
+}
+
+.shadow {
+    box-shadow: 5px -5px 5px 0 var(--primary-color);
+}
