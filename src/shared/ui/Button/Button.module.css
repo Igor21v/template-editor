@@ -71,6 +71,11 @@
   height: var(--font-line-xl);
 }
 
+.size_s {
+  font: var(--font-s);
+  padding: 2px 8px;
+}
+
 .size_m {
   font: var(--font-m);
 }

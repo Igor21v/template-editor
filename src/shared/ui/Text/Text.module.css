@@ -67,3 +67,9 @@
 .minLineHeight .title {
   line-height: 1.2;
 }
+.card {
+  background: var(--green-dark-color);
+  border-radius: 12px;
+  padding: 0px 8px;
+  text-align: center;
+}

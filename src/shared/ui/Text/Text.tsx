@@ -33,6 +33,7 @@ export interface TextProps {
   HeaderTag?: HeaderTagType;
   italic?: boolean;
   minLineHeight?: boolean;
+  card?: boolean;
 }
 
 export const Text = memo((props: TextProps) => {
@@ -48,12 +49,14 @@ export const Text = memo((props: TextProps) => {
     classNameTitle,
     classNameText,
     minLineHeight,
+    card,
   } = props;
 
   const additional = [className, cls[theme], cls[align], cls[size]];
   const mods = {
     [cls.italic]: italic,
     [cls.minLineHeight]: minLineHeight,
+    [cls.card]: card,
   };
   return (
     <div className={classNames("", mods, additional)}>

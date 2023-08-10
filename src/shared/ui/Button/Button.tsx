@@ -11,7 +11,7 @@ export type ButtonTheme =
   | "backgroundInverted"
   | "outlineGreen";
 
-export type ButtonSize = "size_m" | "size_l" | "size_xl";
+export type ButtonSize = "size_s" | "size_m" | "size_l" | "size_xl";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
