@@ -1,37 +1,39 @@
 .wrapper {
   display: flex;
-  gap: 2px;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
+  background: var(--input-bg);
+  border: 0 solid var(--primary-color);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.wrapper.canEdit:hover {
+  outline: 1px solid var(--primary-color);
 }
 
 .lable {
-  display: flex;
-  gap: 2px;
-  align-items: center;
-  flex-shrink: 0;
+  opacity: 0.5;
+  font: var(--font-s);
 }
 
 .input {
   color: var(--primary-color);
   background: var(--input-bg);
   outline: none;
-  padding: 4px;
   border: 0 solid var(--primary-color);
   border-radius: 8px;
-  width: 100%;
+  font: var(--font-m);
+  margin-left: 8px;
 }
-.input.canEdit:hover {
-  outline: 1px solid var(--primary-color);
-}
+
 .input::placeholder {
   color: var(--primary-color);
-  opacity: 0.4;
+  opacity: 0.6;
 }
-.input.validateError {
+.wrapper.validateError {
   outline: 1px solid var(--red-dark-color);
 }
-.input.validateError:hover {
+.wrapper.validateError:hover {
   outline: 1px solid var(--red-dark-color);
 }
 

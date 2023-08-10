@@ -3,7 +3,7 @@ import { classNames, Mods } from "shared/lib/classNames/classNames";
 import { useModal } from "shared/lib/hooks/useModal/useModal";
 import { Overlay } from "../Overlay/Overlay";
 import { Portal } from "../Portal/Portal";
-import cls from "./Modal.module.scss";
+import cls from "./Modal.module.css";
 
 interface ModalProps {
   className?: string;
@@ -18,7 +18,7 @@ interface ModalProps {
  * Компонент модального окна
  *  isOpen - модальное окно открыто
  *  onClose - функция для закрытия
- *  needModalClose - флаг необходимости закрытия модального окна (при наличии кнопок в модалке)
+ *  needModalClose - флаг необходимости закрытия модального окна (при наличии кнопок в модалке) (Для плавного закрытия)
  *  resetNeedModalClose - функция сброса флага необходимости закрытия модалки
  */
 

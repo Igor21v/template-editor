@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import cls from "./TemplateEditor.module.css";
 import { classNames } from "shared/lib/classNames/classNames";
 import { TextAreaAutosize } from "shared/ui/TextAreaAutosize";
@@ -6,7 +6,7 @@ import { Card } from "shared/ui/Card";
 import { HStack, VStack } from "shared/ui/Stack";
 import { Text } from "shared/ui/Text";
 import { Button } from "shared/ui/Button";
-import { TabItem, Tabs } from "shared/ui/Tabs";
+import { TemplatePreview } from "../TemplatePreview/TemplatePreview";
 
 interface TemplateEditorProps {
   className?: string;
@@ -15,6 +15,13 @@ interface TemplateEditorProps {
 
 export const TemplateEditor = memo((props: TemplateEditorProps) => {
   const { className, closeHandler } = props;
+  const [isPreview, setIsPreview] = useState(false);
+  const onClosePreview = () => {
+    setIsPreview(false);
+  };
+  const onShowPreview = () => {
+    setIsPreview(true);
+  };
 
   return (
     <VStack
@@ -43,15 +50,16 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       <Card max className={cls.card}>
         <TextAreaAutosize />
       </Card>
-      <HStack max justify="around">
-        <Button>Preview</Button>
-        <Button theme="outlineGreen" onClick={closeHandler}>
-          Save
-        </Button>
+      <HStack max justify="center" gap="64">
+        <Button onClick={onShowPreview}>Preview</Button>
+        <Button theme="outlineGreen">Save</Button>
         <Button theme="outlineRed" onClick={closeHandler}>
           Close
         </Button>
       </HStack>
+      {isPreview && (
+        <TemplatePreview onClose={onClosePreview} isOpen={isPreview} />
+      )}
     </VStack>
   );
 });

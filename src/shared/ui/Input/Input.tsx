@@ -61,14 +61,16 @@ export const Input = <T extends number | string | undefined>(
 
   const mods: Mods = {
     [cls.readOnly]: readOnly,
-    [cls.canEdit]: canEdit,
     [cls.validateError]: validateError,
   };
   return (
-    <div className={classNames(cls.wrapper, {}, [classNameWrapper])}>
+    <div
+      className={classNames(cls.wrapper, { [cls.canEdit]: canEdit }, [
+        classNameWrapper,
+      ])}
+    >
       <label htmlFor={placeholder} className={cls.lable}>
-        <div>{placeholder}</div>
-        {">"}
+        {placeholder}
       </label>
       <input
         ref={ref}
@@ -82,6 +84,7 @@ export const Input = <T extends number | string | undefined>(
         id={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}
+        placeholder={placeholder}
       />
     </div>
   );
