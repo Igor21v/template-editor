@@ -16,7 +16,7 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
   return (
     <VStack gap="8">
       <HStack className={cls.row} justify="between" max>
-        <HStack className={cls.firstCol} gap="8" align="center">
+        <HStack className={cls.firstCol} gap="32" align="center">
           <Text text="IF" card />
           <Button theme="background" size="size_s">
             Delete
@@ -24,8 +24,14 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
         </HStack>
         <TextAreaAutosize />
       </HStack>
-      <TextAreaAutosize />
-      <TextAreaAutosize />
+      <HStack justify="between" max>
+        <Text text="THEN" card className={cls.firstCol} />
+        <TextAreaAutosize />
+      </HStack>
+      <HStack justify="between" max>
+        <Text text="ELSE" card className={cls.firstCol} />
+        <TextAreaAutosize />
+      </HStack>
       <TextAreaAutosize />
     </VStack>
   );

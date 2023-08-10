@@ -4,6 +4,7 @@ import { classNames } from "shared/lib/classNames/classNames";
 import { TemplateEditor } from "widgets/TemplateEditor";
 import { Button } from "shared/ui/Button";
 import { VStack } from "shared/ui/Stack";
+import { resolve } from "path";
 
 interface MainPageProps {
   className?: string;
@@ -12,8 +13,10 @@ interface MainPageProps {
 export const MainPage = memo((props: MainPageProps) => {
   const { className } = props;
   const [templIsOpen, setTemplIsOpen] = useState(true);
-  const saveHandler = () => {
-    console.log("Saving");
+  const saveHandler = async () => {
+    await new Promise((resolve) =>
+      setTimeout(() => console.log("Saved"), 1000)
+    );
   };
 
   if (templIsOpen) {

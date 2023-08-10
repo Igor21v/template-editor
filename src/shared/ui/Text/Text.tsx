@@ -56,7 +56,6 @@ export const Text = memo((props: TextProps) => {
   const mods = {
     [cls.italic]: italic,
     [cls.minLineHeight]: minLineHeight,
-    [cls.card]: card,
   };
   return (
     <div className={classNames("", mods, additional)}>
@@ -66,7 +65,13 @@ export const Text = memo((props: TextProps) => {
         </HeaderTag>
       )}
       {text && (
-        <p className={classNames(cls.text, {}, [classNameText])}>{text}</p>
+        <p
+          className={classNames(cls.text, { [cls.card]: card }, [
+            classNameText,
+          ])}
+        >
+          {text}
+        </p>
       )}
     </div>
   );
