@@ -11,10 +11,11 @@ import { TemplatePreview } from "../TemplatePreview/TemplatePreview";
 interface TemplateEditorProps {
   className?: string;
   closeHandler: () => void;
+  saveHandler: () => void;
 }
 
 export const TemplateEditor = memo((props: TemplateEditorProps) => {
-  const { className, closeHandler } = props;
+  const { className, closeHandler, saveHandler } = props;
   const [isPreview, setIsPreview] = useState(false);
   const onClosePreview = () => {
     setIsPreview(false);
@@ -52,7 +53,9 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       </Card>
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>
-        <Button theme="outlineGreen">Save</Button>
+        <Button theme="outlineGreen" onClick={saveHandler}>
+          Save
+        </Button>
         <Button theme="outlineRed" onClick={closeHandler}>
           Close
         </Button>

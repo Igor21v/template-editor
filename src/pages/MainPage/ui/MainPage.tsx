@@ -12,11 +12,17 @@ interface MainPageProps {
 export const MainPage = memo((props: MainPageProps) => {
   const { className } = props;
   const [templIsOpen, setTemplIsOpen] = useState(true);
+  const saveHandler = () => {
+    console.log("Saving");
+  };
 
   if (templIsOpen) {
     return (
       <div className={classNames(cls.MainPage, {}, [className])}>
-        <TemplateEditor closeHandler={() => setTemplIsOpen(false)} />
+        <TemplateEditor
+          closeHandler={() => setTemplIsOpen(false)}
+          saveHandler={saveHandler}
+        />
       </div>
     );
   }
