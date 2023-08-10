@@ -40,7 +40,7 @@
   --green-dark-color: rgb(39 167 0);
 
   --bg-color: #090f11;
-  --second-bg-color: #151c1f;
+  --second-bg-color: #2b2f31;
   --primary-color: #dbdbdb;
   --secondary-color: #dbdbdb;
   --inverted-primary-color: #dbdbdb;
@@ -54,7 +54,7 @@
   --input-bg: #0c1214;
 
   /*card*/
-  --card-bg: #151c1f;
+  --card-bg: #2b2f31;
   --inverted-card-bg: #090f11;
 
   /*listbox*/

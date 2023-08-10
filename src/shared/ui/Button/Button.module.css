@@ -34,6 +34,12 @@
   background: none;
 }
 
+.outlineGreen {
+  border: 1px solid var(--green-dark-color);
+  color: var(--green-dark-color);
+  background: none;
+}
+
 .background {
   background: var(--bg-color);
   color: var(--primary-color);
