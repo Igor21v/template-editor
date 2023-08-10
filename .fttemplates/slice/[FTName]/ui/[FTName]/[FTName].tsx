@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import cls from './<FTName>.module.css';
-import { classNames } from '@/shared/lib/classNames/classNames';
+import { classNames } from 'shared/lib/classNames/classNames';
 
 interface <FTName>Props {
     className ?: string;

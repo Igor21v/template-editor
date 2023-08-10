@@ -7,6 +7,7 @@ import { HStack, VStack } from "shared/ui/Stack";
 import { Text } from "shared/ui/Text";
 import { Button } from "shared/ui/Button";
 import { TemplatePreview } from "../TemplatePreview/TemplatePreview";
+import { EditorBlock } from "../EditorBlock/EditorBlock";
 
 interface TemplateEditorProps {
   className?: string;
@@ -50,6 +51,7 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
 
       <Card max className={cls.card}>
         <TextAreaAutosize />
+        <EditorBlock />
       </Card>
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>
