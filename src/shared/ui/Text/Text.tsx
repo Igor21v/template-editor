@@ -33,7 +33,7 @@ export interface TextProps {
   HeaderTag?: HeaderTagType;
   italic?: boolean;
   minLineHeight?: boolean;
-  card?: boolean;
+  badge?: boolean;
 }
 
 export const Text = memo((props: TextProps) => {
@@ -49,7 +49,7 @@ export const Text = memo((props: TextProps) => {
     classNameTitle,
     classNameText,
     minLineHeight,
-    card,
+    badge,
   } = props;
 
   const additional = [className, cls[theme], cls[align], cls[size]];
@@ -66,7 +66,7 @@ export const Text = memo((props: TextProps) => {
       )}
       {text && (
         <p
-          className={classNames(cls.text, { [cls.card]: card }, [
+          className={classNames(cls.text, { [cls.badge]: badge }, [
             classNameText,
           ])}
         >

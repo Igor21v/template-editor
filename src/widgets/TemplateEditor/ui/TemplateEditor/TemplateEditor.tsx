@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import cls from "./TemplateEditor.module.css";
 import { classNames } from "shared/lib/classNames/classNames";
 import { TextAreaAutosize } from "shared/ui/TextAreaAutosize";
@@ -7,16 +7,17 @@ import { HStack, VStack } from "shared/ui/Stack";
 import { Text } from "shared/ui/Text";
 import { Button } from "shared/ui/Button";
 import { TemplatePreview } from "../TemplatePreview/TemplatePreview";
-import { EditorBlock } from "../EditorBlock/EditorBlock";
+import { EditorBlock, IfBlocksObj } from "../EditorBlock/EditorBlock";
 
 interface TemplateEditorProps {
   className?: string;
   closeHandler: () => void;
   saveHandler: () => void;
+  arrVarNames: string[];
 }
 
 export const TemplateEditor = memo((props: TemplateEditorProps) => {
-  const { className, closeHandler, saveHandler } = props;
+  const { className, closeHandler, saveHandler, arrVarNames } = props;
   const [isPreview, setIsPreview] = useState(false);
   const onClosePreview = () => {
     setIsPreview(false);
@@ -24,7 +25,57 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   const onShowPreview = () => {
     setIsPreview(true);
   };
+  const renderVarNamemes = useMemo(() => {
+    return arrVarNames.map((badge: string) => (
+      <Button theme="backgroundInverted" key={badge}>{`{${badge}}`}</Button>
+    ));
+  }, [arrVarNames]);
 
+  const ifBlocksObj: IfBlocksObj = {
+    key: 1,
+    IF: {
+      value: "222",
+    },
+    THEN: {
+      value: "123",
+      next: {
+        key: 2,
+        IF: {
+          value: "222",
+        },
+        THEN: {
+          value: "222",
+        },
+        ELSE: {
+          value: "222",
+        },
+        AFTER: {
+          value: "222222",
+          next: {
+            key: 3,
+            IF: {
+              value: "222",
+            },
+            THEN: {
+              value: "222",
+            },
+            ELSE: {
+              value: "222",
+            },
+            AFTER: {
+              value: "222",
+            },
+          },
+        },
+      },
+    },
+    ELSE: {
+      value: "222",
+    },
+    AFTER: {
+      value: "222",
+    },
+  };
   return (
     <VStack
       align="center"
@@ -38,21 +89,12 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
         className={cls.title}
       />
       <HStack max justify="between" align="center">
-        <HStack gap="8">
-          <Button theme="backgroundInverted">{"{firstname}"}</Button>
-          <Button theme="backgroundInverted">{"{lastname}"}</Button>
-          <Button theme="backgroundInverted">{"{company}"}</Button>
-          <Button theme="backgroundInverted">{"{position}"}</Button>
-        </HStack>
+        <HStack gap="8">{renderVarNamemes}</HStack>
         <Button theme="backgroundInverted" size="size_m">
           Click to add IF-THEN-ELSE block
         </Button>
       </HStack>
-
-      <Card max className={cls.card}>
-        <TextAreaAutosize />
-        <EditorBlock />
-      </Card>
+      <EditorBlock ifBlocksObj={ifBlocksObj} />
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>
         <Button theme="outlineGreen" onClick={saveHandler}>
