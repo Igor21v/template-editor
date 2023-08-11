@@ -6,7 +6,7 @@ import { Text } from "shared/ui/Text";
 import { Button } from "shared/ui/Button";
 import { Card } from "shared/ui/Card";
 
-interface itemIfBlock {
+export interface itemIfBlock {
   value: string;
   next?: IfBlocksObj;
 }
@@ -19,30 +19,47 @@ export interface IfBlocksObj {
   AFTER?: itemIfBlock;
 }
 
+type IfBlocksObjKey = keyof IfBlocksObj;
+
 interface EditorBlockProps {
   className?: string;
   ifBlocksObj: IfBlocksObj;
+  changeIfBlockObj: (value: IfBlocksObj) => void;
 }
 
 export const EditorBlock = memo((props: EditorBlockProps) => {
   const { ifBlocksObj } = props;
 
+  const areaOnChangeHandler =
+    (path: string[], field: string) => (value?: string) => {
+      const pathToProp = (path.join(".") +
+        "." +
+        field) as keyof typeof EditorBlock;
+      console.log(EditorBlock[pathToProp]);
+      /* EditorBlock[key] = "111"; */
+    };
+  areaOnChangeHandler(["THEN"], "AFTER")();
+
   //Функция рендера блока условий из объекта
   const renderEditorBlocks = () => {
     let blockStrings: JSX.Element[] = [];
-    const renderItemBlock = (obj: IfBlocksObj, nesting: number) => {
+    const renderItemBlock = (
+      obj: IfBlocksObj,
+      nesting: number,
+      path: string[]
+    ) => {
       //итерируемся по каждой строке в объекте
       Object.entries(obj).forEach(([field, value]) => {
         if (field !== "key") {
-          blockStrings.push(renderString(field, nesting, value.value, obj.key));
+          blockStrings.push(renderString(field, nesting, value.value, path));
           if (value.next) {
-            renderItemBlock(value.next, nesting + 1);
+            renderItemBlock(value.next, nesting + 1, [...path, field]);
           }
         }
       });
     };
     if (ifBlocksObj.key) {
-      renderItemBlock(ifBlocksObj, 0);
+      renderItemBlock(ifBlocksObj, 0, []);
     }
     return blockStrings;
   };
@@ -51,7 +68,7 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
     type: string,
     nesting: number,
     value: string,
-    key?: number
+    path?: string[]
   ) {
     let content = null;
     switch (type) {
@@ -87,7 +104,7 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
       <div
         className={cls.stringWrapper}
         style={{ paddingLeft: nesting * 132 }}
-        key={key + type}
+        key={path?.join("") + type}
       >
         {content}
       </div>

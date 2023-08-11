@@ -1,13 +1,61 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import cls from "./TemplateEditor.module.css";
 import { classNames } from "shared/lib/classNames/classNames";
-import { TextAreaAutosize } from "shared/ui/TextAreaAutosize";
-import { Card } from "shared/ui/Card";
 import { HStack, VStack } from "shared/ui/Stack";
 import { Text } from "shared/ui/Text";
 import { Button } from "shared/ui/Button";
 import { TemplatePreview } from "../TemplatePreview/TemplatePreview";
-import { EditorBlock, IfBlocksObj } from "../EditorBlock/EditorBlock";
+import {
+  EditorBlock,
+  IfBlocksObj,
+  itemIfBlock,
+} from "../EditorBlock/EditorBlock";
+
+const initIfBlocksObj: IfBlocksObj = {
+  key: 1,
+  IF: {
+    value: "222",
+  },
+  THEN: {
+    value: "123",
+    next: {
+      key: 2,
+      IF: {
+        value: "222",
+      },
+      THEN: {
+        value: "222",
+      },
+      ELSE: {
+        value: "222",
+      },
+      AFTER: {
+        value: "222222",
+        next: {
+          key: 3,
+          IF: {
+            value: "222",
+          },
+          THEN: {
+            value: "222",
+          },
+          ELSE: {
+            value: "222",
+          },
+          AFTER: {
+            value: "222",
+          },
+        },
+      },
+    },
+  },
+  ELSE: {
+    value: "222",
+  },
+  AFTER: {
+    value: "222",
+  },
+};
 
 interface TemplateEditorProps {
   className?: string;
@@ -31,51 +79,11 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
     ));
   }, [arrVarNames]);
 
-  const ifBlocksObj: IfBlocksObj = {
-    key: 1,
-    IF: {
-      value: "222",
-    },
-    THEN: {
-      value: "123",
-      next: {
-        key: 2,
-        IF: {
-          value: "222",
-        },
-        THEN: {
-          value: "222",
-        },
-        ELSE: {
-          value: "222",
-        },
-        AFTER: {
-          value: "222222",
-          next: {
-            key: 3,
-            IF: {
-              value: "222",
-            },
-            THEN: {
-              value: "222",
-            },
-            ELSE: {
-              value: "222",
-            },
-            AFTER: {
-              value: "222",
-            },
-          },
-        },
-      },
-    },
-    ELSE: {
-      value: "222",
-    },
-    AFTER: {
-      value: "222",
-    },
-  };
+  const [ifBlocksObj, setIfBlocksObj] = useState(initIfBlocksObj);
+  const changeIfBlockObj = useCallback((value: IfBlocksObj) => {
+    setIfBlocksObj(value);
+  }, []);
+
   return (
     <VStack
       align="center"
@@ -94,7 +102,10 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
           Click to add IF-THEN-ELSE block
         </Button>
       </HStack>
-      <EditorBlock ifBlocksObj={ifBlocksObj} />
+      <EditorBlock
+        ifBlocksObj={ifBlocksObj}
+        changeIfBlockObj={changeIfBlockObj}
+      />
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>
         <Button theme="outlineGreen" onClick={saveHandler}>
