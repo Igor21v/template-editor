@@ -1,59 +1,52 @@
-import { memo, useCallback, useMemo, useState } from "react";
-import cls from "./TemplateEditor.module.css";
-import { classNames } from "shared/lib/classNames/classNames";
-import { HStack, VStack } from "shared/ui/Stack";
-import { Text } from "shared/ui/Text";
-import { Button } from "shared/ui/Button";
-import { TemplatePreview } from "../TemplatePreview/TemplatePreview";
-import {
-  EditorBlock,
-  IfBlocksObj,
-  itemIfBlock,
-} from "../EditorBlock/EditorBlock";
+import { memo, useCallback, useMemo, useState } from 'react';
+import cls from './TemplateEditor.module.css';
+import { classNames } from 'shared/lib/classNames/classNames';
+import { HStack, VStack } from 'shared/ui/Stack';
+import { Text } from 'shared/ui/Text';
+import { Button } from 'shared/ui/Button';
+import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
+import { EditorBlock, IfBlocksObj } from '../EditorBlock/EditorBlock';
 
 const initIfBlocksObj: IfBlocksObj = {
-  key: 1,
   IF: {
-    value: "222",
+    value: '4',
   },
   THEN: {
-    value: "123",
+    value: '123',
     next: {
-      key: 2,
       IF: {
-        value: "222",
+        value: 'g',
       },
       THEN: {
-        value: "222",
+        value: 'nn',
       },
       ELSE: {
-        value: "222",
+        value: '222',
       },
       AFTER: {
-        value: "222222",
+        value: 'vvvc',
         next: {
-          key: 3,
           IF: {
-            value: "222",
+            value: 'tt',
           },
           THEN: {
-            value: "222",
+            value: 'gd',
           },
           ELSE: {
-            value: "222",
+            value: '222',
           },
           AFTER: {
-            value: "222",
+            value: '222',
           },
         },
       },
     },
   },
   ELSE: {
-    value: "222",
+    value: '222',
   },
   AFTER: {
-    value: "222",
+    value: '222',
   },
 };
 
@@ -80,9 +73,13 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   }, [arrVarNames]);
 
   const [ifBlocksObj, setIfBlocksObj] = useState(initIfBlocksObj);
-  const changeIfBlockObj = useCallback((value: IfBlocksObj) => {
-    setIfBlocksObj(value);
-  }, []);
+  const changeIfBlockObj = useCallback(
+    (value: IfBlocksObj) => {
+      setIfBlocksObj(value);
+      console.log('+++ ' + JSON.stringify(ifBlocksObj));
+    },
+    [ifBlocksObj],
+  );
 
   return (
     <VStack

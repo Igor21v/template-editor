@@ -1,10 +1,10 @@
-import { memo } from "react";
-import cls from "./EditorBlock.module.css";
-import { HStack, VStack } from "shared/ui/Stack";
-import { TextAreaAutosize } from "shared/ui/TextAreaAutosize";
-import { Text } from "shared/ui/Text";
-import { Button } from "shared/ui/Button";
-import { Card } from "shared/ui/Card";
+import { memo } from 'react';
+import cls from './EditorBlock.module.css';
+import { HStack, VStack } from 'shared/ui/Stack';
+import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
+import { Text } from 'shared/ui/Text';
+import { Button } from 'shared/ui/Button';
+import { Card } from 'shared/ui/Card';
 
 export interface itemIfBlock {
   value: string;
@@ -12,14 +12,11 @@ export interface itemIfBlock {
 }
 
 export interface IfBlocksObj {
-  key?: number;
   IF?: itemIfBlock;
   THEN?: itemIfBlock;
   ELSE?: itemIfBlock;
   AFTER?: itemIfBlock;
 }
-
-type IfBlocksObjKey = keyof IfBlocksObj;
 
 interface EditorBlockProps {
   className?: string;
@@ -28,17 +25,30 @@ interface EditorBlockProps {
 }
 
 export const EditorBlock = memo((props: EditorBlockProps) => {
-  const { ifBlocksObj } = props;
+  const { ifBlocksObj, changeIfBlockObj } = props;
 
-  const areaOnChangeHandler =
-    (path: string[], field: string) => (value?: string) => {
-      const pathToProp = (path.join(".") +
-        "." +
-        field) as keyof typeof EditorBlock;
-      console.log(EditorBlock[pathToProp]);
-      /* EditorBlock[key] = "111"; */
+  const getProperty = (path: string[], obj: any) =>
+    path.reduce((acc: any, el) => (acc = acc[el]), obj);
+  const setProperty = (path: string[], obj?: any, value?: any) => {
+    if (path.length > 0) {
+      setProperty(path.slice(1), obj[path[0]], value);
+    } else {
+      obj = value;
+    }
+  };
+
+  const areaOnChangeHandler = (path: string[], field: string) => {
+    const pathEl = [...path, field];
+    return (value?: string) => {
+      const propertyVal = getProperty(pathEl, ifBlocksObj);
+      propertyVal.value = value;
+      setProperty(pathEl, ifBlocksObj, propertyVal);
+      console.log('ifBlocksObj ' + JSON.stringify(ifBlocksObj));
+      changeIfBlockObj(ifBlocksObj);
     };
-  areaOnChangeHandler(["THEN"], "AFTER")();
+  };
+
+  /* areaOnChangeHandler(["THEN", "next"], "ELSE")(); */
 
   //Функция рендера блока условий из объекта
   const renderEditorBlocks = () => {
@@ -46,19 +56,19 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
     const renderItemBlock = (
       obj: IfBlocksObj,
       nesting: number,
-      path: string[]
+      path: string[],
     ) => {
       //итерируемся по каждой строке в объекте
+      console.log(path);
       Object.entries(obj).forEach(([field, value]) => {
-        if (field !== "key") {
-          blockStrings.push(renderString(field, nesting, value.value, path));
-          if (value.next) {
-            renderItemBlock(value.next, nesting + 1, [...path, field]);
-          }
+        blockStrings.push(renderString(field, nesting, value.value, path));
+        if (value.next) {
+          const newPath = [...path, field, 'next'];
+          renderItemBlock(value.next, nesting + 1, newPath);
         }
       });
     };
-    if (ifBlocksObj.key) {
+    if (ifBlocksObj.IF) {
       renderItemBlock(ifBlocksObj, 0, []);
     }
     return blockStrings;
@@ -68,18 +78,21 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
     type: string,
     nesting: number,
     value: string,
-    path?: string[]
+    path: string[],
   ) {
     let content = null;
     switch (type) {
-      case "AFTER":
+      case 'AFTER':
         content = (
           <HStack justify="between" max>
-            <TextAreaAutosize value={value} />
+            <TextAreaAutosize
+              value={value}
+              onChange={areaOnChangeHandler(path, type)}
+            />
           </HStack>
         );
         break;
-      case "IF":
+      case 'IF':
         content = (
           <HStack justify="between" max>
             <HStack className={cls.firstCol} gap="32" align="center">
@@ -88,7 +101,10 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
                 Delete
               </Button>
             </HStack>
-            <TextAreaAutosize value={value} />
+            <TextAreaAutosize
+              value={value}
+              onChange={areaOnChangeHandler(path, type)}
+            />
           </HStack>
         );
         break;
@@ -96,7 +112,10 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
         content = (
           <HStack justify="between" max>
             <Text text={type} badge className={cls.firstCol} />
-            <TextAreaAutosize value={value} />
+            <TextAreaAutosize
+              value={value}
+              onChange={areaOnChangeHandler(path, type)}
+            />
           </HStack>
         );
     }
@@ -104,7 +123,7 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
       <div
         className={cls.stringWrapper}
         style={{ paddingLeft: nesting * 132 }}
-        key={path?.join("") + type}
+        key={path?.join('') + type}
       >
         {content}
       </div>
