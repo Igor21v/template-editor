@@ -33,7 +33,6 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
     setIfBlocksObj(value);
   }, []);
   const [position, setPosition] = useState<PositionType>({ path: ['AFTER'] });
-  console.log('position ' + position.path);
 
   return (
     <VStack
