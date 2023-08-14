@@ -5,50 +5,9 @@ import { HStack, VStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
-import { EditorBlock, IfBlocksObj } from '../EditorBlock/EditorBlock';
-
-const initIfBlocksObj: IfBlocksObj = {
-  IF: {
-    value: '4',
-  },
-  THEN: {
-    value: '123',
-    next: {
-      IF: {
-        value: 'g',
-      },
-      THEN: {
-        value: 'nn',
-      },
-      ELSE: {
-        value: '222',
-      },
-      AFTER: {
-        value: 'vvvc',
-        next: {
-          IF: {
-            value: 'tt',
-          },
-          THEN: {
-            value: 'gd',
-          },
-          ELSE: {
-            value: '222',
-          },
-          AFTER: {
-            value: '222',
-          },
-        },
-      },
-    },
-  },
-  ELSE: {
-    value: '222',
-  },
-  AFTER: {
-    value: '222',
-  },
-};
+import { IfBlocksObj, initIfBlocksObj } from 'shared/const/initIfBlocksObj';
+import { EditorBlock } from '../EditorBlock/EditorBlock';
+import { EditorTop } from '../EditorTop/EditorTop';
 
 interface TemplateEditorProps {
   className?: string;
@@ -66,16 +25,12 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   const onShowPreview = () => {
     setIsPreview(true);
   };
-  const renderVarNamemes = useMemo(() => {
-    return arrVarNames.map((badge: string) => (
-      <Button theme="backgroundInverted" key={badge}>{`{${badge}}`}</Button>
-    ));
-  }, [arrVarNames]);
-
   const [ifBlocksObj, setIfBlocksObj] = useState(initIfBlocksObj);
   const changeIfBlockObj = useCallback((value: IfBlocksObj) => {
     setIfBlocksObj(value);
   }, []);
+  const [position, setPosition] = useState({ path: ['AFTER'] });
+  console.log('position ' + position.path);
 
   return (
     <VStack
@@ -84,20 +39,11 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       max
       gap="16"
     >
-      <Text
-        title="Message Template Editor"
-        align="center"
-        className={cls.title}
-      />
-      <HStack max justify="between" align="center">
-        <HStack gap="8">{renderVarNamemes}</HStack>
-        <Button theme="backgroundInverted" size="size_m">
-          Click to add IF-THEN-ELSE block
-        </Button>
-      </HStack>
+      <EditorTop arrVarNames={arrVarNames} />
       <EditorBlock
         ifBlocksObj={ifBlocksObj}
         changeIfBlockObj={changeIfBlockObj}
+        setPosition={setPosition}
       />
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>

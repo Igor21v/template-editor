@@ -3,29 +3,24 @@ import cls from './EditorBlock.module.css';
 import { VStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Card } from 'shared/ui/Card';
-import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import { EditorBlockString } from './EditorBlockString';
-
-export interface itemIfBlock {
-  value: string;
-  next?: IfBlocksObj;
-}
-
-export interface IfBlocksObj {
-  IF?: itemIfBlock;
-  THEN?: itemIfBlock;
-  ELSE?: itemIfBlock;
-  AFTER?: itemIfBlock;
-}
+import { IfBlocksObj } from 'shared/const/initIfBlocksObj';
 
 interface EditorBlockProps {
   className?: string;
   ifBlocksObj: IfBlocksObj;
   changeIfBlockObj: (value: IfBlocksObj) => void;
+  setPosition: ({ path }: { path: string[] }) => void;
 }
 
+/**
+ * Компонент рендера блока условий
+ * ifBlocksObj - объект условий
+ * changeIfBlockObj - функция изменения ifBlocksObj
+ */
+
 export const EditorBlock = memo((props: EditorBlockProps) => {
-  const { ifBlocksObj, changeIfBlockObj } = props;
+  const { ifBlocksObj, changeIfBlockObj, setPosition } = props;
 
   //Функция рендера блока условий из объекта
   const renderEditorBlocks = () => {
@@ -44,6 +39,7 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
             nesting={nesting}
             path={[...path, field]}
             value={value.value}
+            setPosition={setPosition}
             key={path?.join('') + field}
           />,
         );
@@ -53,15 +49,12 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
         }
       });
     };
-    if (ifBlocksObj.IF) {
-      renderItemBlock(ifBlocksObj, 0, []);
-    }
+    renderItemBlock(ifBlocksObj, 0, []);
     return blockStrings;
   };
 
   return (
     <Card max>
-      <TextAreaAutosize />
       <VStack gap="8">{renderEditorBlocks()}</VStack>
     </Card>
   );

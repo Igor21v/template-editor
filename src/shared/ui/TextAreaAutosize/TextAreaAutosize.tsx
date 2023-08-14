@@ -1,17 +1,18 @@
-import { memo } from "react";
-import cls from "./TextAreaAutosize.module.css";
-import { classNames, Mods } from "shared/lib/classNames/classNames";
-import ReactTextareaAutosize from "react-textarea-autosize";
+import { memo } from 'react';
+import cls from './TextAreaAutosize.module.css';
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
+import ReactTextareaAutosize from 'react-textarea-autosize';
 
 interface TextAreaAutosizeProps {
   className?: string;
   value?: string;
   onChange?: (value: string) => void;
   readOnly?: boolean;
+  onFocus?: () => void;
 }
 
 export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
-  const { className, value, onChange, readOnly } = props;
+  const { className, value, onChange, readOnly, onFocus } = props;
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange?.(e.target.value);
@@ -26,7 +27,8 @@ export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
       readOnly={readOnly}
       value={value}
       onChange={onChangeHandler}
-      style={{ resize: "none" }}
+      style={{ resize: 'none' }}
+      onFocus={onFocus}
     />
   );
 });

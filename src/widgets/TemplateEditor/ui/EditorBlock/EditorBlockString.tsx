@@ -5,7 +5,7 @@ import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
-import { IfBlocksObj } from './EditorBlock';
+import { IfBlocksObj } from 'shared/const/initIfBlocksObj';
 
 interface EditorBlockStringProps {
   nesting: number;
@@ -13,6 +13,7 @@ interface EditorBlockStringProps {
   path: string[];
   ifBlocksObj: IfBlocksObj;
   changeIfBlockObj: (value: IfBlocksObj) => void;
+  setPosition: ({ path }: { path: string[] }) => void;
 }
 
 /**
@@ -20,11 +21,14 @@ interface EditorBlockStringProps {
  * nesting - уровень вложенности условия (для сдвига блока условия вправо)
  * value - занчие поля
  * path - путь до объекта (формат ['IF','next','THEN','next', 'ELSE])
- * areaOnChangeHandler - функция изменения значения
+ * ifBlocksObj - объект условий
+ * changeIfBlockObj - функция изменения ifBlocksObj
+ * setPosition - функция запоминания позиции курсора
  */
 
 export const EditorBlockString = memo((props: EditorBlockStringProps) => {
-  const { nesting, value, path, changeIfBlockObj, ifBlocksObj } = props;
+  const { nesting, value, path, changeIfBlockObj, ifBlocksObj, setPosition } =
+    props;
 
   const areaOnChangeHandler = (path: string[]) => {
     return (value?: string) => {
@@ -39,14 +43,16 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
     return () => {
       let ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
       const parentPath = path.slice(0, -2);
-      if (parentPath.length) {
-        const propertyVal = getPropertyFromPath(parentPath, ifBlocksObjClone);
-        propertyVal.next = null;
-      } else {
-        ifBlocksObjClone = {};
-      }
+      console.log(parentPath);
+      const propertyVal = getPropertyFromPath(parentPath, ifBlocksObjClone);
+      console.log(propertyVal);
+      propertyVal.next = null;
       changeIfBlockObj(ifBlocksObjClone);
     };
+  };
+
+  const setPositionHandler = (path: string[]) => () => {
+    setPosition({ path });
   };
 
   let content = null;
@@ -57,6 +63,7 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
           <TextAreaAutosize
             value={value}
             onChange={areaOnChangeHandler(path)}
+            onFocus={setPositionHandler(path)}
           />
         </HStack>
       );
@@ -77,6 +84,7 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
           <TextAreaAutosize
             value={value}
             onChange={areaOnChangeHandler(path)}
+            onFocus={setPositionHandler(path)}
           />
         </HStack>
       );
@@ -88,12 +96,16 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
           <TextAreaAutosize
             value={value}
             onChange={areaOnChangeHandler(path)}
+            onFocus={setPositionHandler(path)}
           />
         </HStack>
       );
   }
   return (
-    <div className={cls.stringWrapper} style={{ paddingLeft: nesting * 132 }}>
+    <div
+      className={cls.stringWrapper}
+      style={{ paddingLeft: (nesting - 1) * 132 }}
+    >
       {content}
     </div>
   );
