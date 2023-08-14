@@ -41,6 +41,23 @@ export const initIfBlocksObj: IfBlocksObjType = {
           next: [
             {
               IF: {
+                value: 'tt',
+              },
+              THEN: {
+                value: 'gd',
+                next: [],
+              },
+              ELSE: {
+                value: '222',
+                next: [],
+              },
+              AFTER: {
+                value: '222',
+                next: [],
+              },
+            },
+            {
+              IF: {
                 value: 'g',
               },
               THEN: {

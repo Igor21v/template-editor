@@ -22,11 +22,22 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
     ));
   }, [arrVarNames]);
   const addBlock = () => {
-    const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
-    const propertyVal = getPropertyFromPath(position.path, ifBlocksObjClone);
-    console.log(propertyVal);
-    propertyVal.next.push(emptyIfBlock);
-    changeIfBlockObj(ifBlocksObjClone);
+    const field = position.path.at(-1);
+    if (field === 'THEN' || field === 'ELSE' || field === 'AFTER') {
+      const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
+      let path = [];
+      if (field === 'AFTER' && position.path.length > 1) {
+        path = position.path.slice(0, -3);
+        const index = position.path.at(-2);
+        const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
+        propertyVal.next.splice(1 + parseInt(index || '0'), 0, emptyIfBlock);
+      } else {
+        path = position.path;
+        const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
+        propertyVal.next.unshift(emptyIfBlock);
+      }
+      changeIfBlockObj(ifBlocksObjClone);
+    }
   };
 
   return (

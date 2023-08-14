@@ -7,9 +7,13 @@
   border-radius: 8px;
   width: 100%;
 }
-.TextAreaAutosize.canEdit:hover {
+.TextAreaAutosize.canEdit:focus {
   outline: 1px solid var(--primary-color);
 }
+
+/* .TextAreaAutosize.canEdit:hover {
+  outline: 1px solid var(--primary-color);
+} */
 
 .readOnly {
   opacity: 0.9;

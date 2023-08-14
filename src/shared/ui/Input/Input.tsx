@@ -1,11 +1,11 @@
-import React, { InputHTMLAttributes, useRef } from "react";
-import { classNames, Mods } from "shared/lib/classNames/classNames";
-import cls from "./Input.module.css";
-import { useInitialEffect } from "shared/lib/hooks/useInitialEffect/useInitialEffect";
+import React, { InputHTMLAttributes, useRef, useState } from 'react';
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
+import cls from './Input.module.css';
+import { useInitialEffect } from 'shared/lib/hooks/useInitialEffect/useInitialEffect';
 
 type HTMLInputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
-  "value" | "onChange" | "readOnly"
+  'value' | 'onChange' | 'readOnly'
 >;
 
 interface InputProps<T extends string | number | undefined>
@@ -21,13 +21,13 @@ interface InputProps<T extends string | number | undefined>
   focusHandler?: (value: boolean) => void;
 }
 export const Input = <T extends number | string | undefined>(
-  props: InputProps<T>
+  props: InputProps<T>,
 ) => {
   const {
     className,
     classNameWrapper,
     value,
-    type = "text",
+    type = 'text',
     placeholder,
     onChange,
     autoFocus,
@@ -46,15 +46,18 @@ export const Input = <T extends number | string | undefined>(
   });
   const onBlur = () => {
     focusHandler?.(false);
+    setFocus(false);
   };
   const onFocus = () => {
     focusHandler?.(true);
+    setFocus(true);
   };
+  const [focus, setFocus] = useState(focusIsSet);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (type === "text" || type === "password") {
+    if (type === 'text' || type === 'password') {
       onChange?.(e.target.value as T);
-    } else if (type === "number") {
+    } else if (type === 'number') {
       onChange?.(Number(e.target.value) as T);
     }
   };
@@ -65,9 +68,11 @@ export const Input = <T extends number | string | undefined>(
   };
   return (
     <div
-      className={classNames(cls.wrapper, { [cls.canEdit]: canEdit }, [
-        classNameWrapper,
-      ])}
+      className={classNames(
+        cls.wrapper,
+        { [cls.canEdit]: canEdit, [cls.focus]: focus },
+        [classNameWrapper],
+      )}
     >
       <label htmlFor={placeholder} className={cls.lable}>
         {placeholder}
