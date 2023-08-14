@@ -27,16 +27,6 @@ interface EditorBlockProps {
 export const EditorBlock = memo((props: EditorBlockProps) => {
   const { ifBlocksObj, changeIfBlockObj } = props;
 
-  const areaOnChangeHandler = (path: string[]) => {
-    const pathEl = [...path];
-    return (value?: string) => {
-      const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
-      const propertyVal = getPropertyFromPath(pathEl, ifBlocksObjClone);
-      propertyVal.value = value;
-      changeIfBlockObj(ifBlocksObjClone);
-    };
-  };
-
   //Функция рендера блока условий из объекта
   const renderEditorBlocks = () => {
     let blockStrings: JSX.Element[] = [];
@@ -49,7 +39,8 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
       Object.entries(obj).forEach(([field, value]) => {
         blockStrings.push(
           <EditorBlockString
-            areaOnChangeHandler={areaOnChangeHandler}
+            changeIfBlockObj={changeIfBlockObj}
+            ifBlocksObj={ifBlocksObj}
             nesting={nesting}
             path={[...path, field]}
             value={value.value}

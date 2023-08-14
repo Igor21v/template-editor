@@ -4,12 +4,15 @@ import { HStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
+import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
+import { IfBlocksObj } from './EditorBlock';
 
 interface EditorBlockStringProps {
   nesting: number;
   value: string;
   path: string[];
-  areaOnChangeHandler: (path: string[]) => (value?: string) => void;
+  ifBlocksObj: IfBlocksObj;
+  changeIfBlockObj: (value: IfBlocksObj) => void;
 }
 
 /**
@@ -21,7 +24,31 @@ interface EditorBlockStringProps {
  */
 
 export const EditorBlockString = memo((props: EditorBlockStringProps) => {
-  const { nesting, value, path, areaOnChangeHandler } = props;
+  const { nesting, value, path, changeIfBlockObj, ifBlocksObj } = props;
+
+  const areaOnChangeHandler = (path: string[]) => {
+    return (value?: string) => {
+      const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
+      const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
+      propertyVal.value = value;
+      changeIfBlockObj(ifBlocksObjClone);
+    };
+  };
+
+  const deleteHandler = (path: string[]) => {
+    return () => {
+      let ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
+      const parentPath = path.slice(0, -2);
+      if (parentPath.length) {
+        const propertyVal = getPropertyFromPath(parentPath, ifBlocksObjClone);
+        propertyVal.next = null;
+      } else {
+        ifBlocksObjClone = {};
+      }
+      changeIfBlockObj(ifBlocksObjClone);
+    };
+  };
+
   let content = null;
   switch (path.at(-1)) {
     case 'AFTER':
@@ -39,7 +66,11 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
         <HStack justify="between" max>
           <HStack className={cls.firstCol} gap="32" align="center">
             <Text text="IF" badge />
-            <Button theme="background" size="size_s">
+            <Button
+              theme="background"
+              size="size_s"
+              onClick={deleteHandler(path)}
+            >
               Delete
             </Button>
           </HStack>
