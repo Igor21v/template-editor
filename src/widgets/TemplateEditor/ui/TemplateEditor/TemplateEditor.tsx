@@ -73,13 +73,14 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   }, [arrVarNames]);
 
   const [ifBlocksObj, setIfBlocksObj] = useState(initIfBlocksObj);
-  const changeIfBlockObj = useCallback(
-    (value: IfBlocksObj) => {
-      setIfBlocksObj(value);
+
+  /*   const changeIfBlockObj = useCallback(
+    (changeFn: (prevState: IfBlocksObj) => IfBlocksObj) => {
+      setIfBlocksObj(changeFn);
       console.log('+++ ' + JSON.stringify(ifBlocksObj));
     },
     [ifBlocksObj],
-  );
+  ); */
 
   return (
     <VStack
@@ -101,7 +102,7 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       </HStack>
       <EditorBlock
         ifBlocksObj={ifBlocksObj}
-        changeIfBlockObj={changeIfBlockObj}
+        changeIfBlockObj={setIfBlocksObj}
       />
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>

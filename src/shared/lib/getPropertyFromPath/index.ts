@@ -1,0 +1,1 @@
+export { getPropertyFromPath } from './getPropertyFromPath';
