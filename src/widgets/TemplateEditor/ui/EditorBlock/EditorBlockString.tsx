@@ -44,10 +44,9 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
     return () => {
       let ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
       const parentPath = path.slice(0, -2);
-      console.log(parentPath);
+      const index = path.slice(-2, -1);
       const propertyVal = getPropertyFromPath(parentPath, ifBlocksObjClone);
-      console.log(propertyVal);
-      propertyVal.next = null;
+      propertyVal.splice(index, 1);
       changeIfBlockObj(ifBlocksObjClone);
     };
   };

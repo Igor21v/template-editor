@@ -24,7 +24,8 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
   const addBlock = () => {
     const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
     const propertyVal = getPropertyFromPath(position.path, ifBlocksObjClone);
-    propertyVal.next = emptyIfBlock;
+    console.log(propertyVal);
+    propertyVal.next.push(emptyIfBlock);
     changeIfBlockObj(ifBlocksObjClone);
   };
 

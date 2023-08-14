@@ -4,7 +4,7 @@ import { VStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Card } from 'shared/ui/Card';
 import { EditorBlockString } from './EditorBlockString';
-import { IfBlocksObjType } from 'shared/const/initIfBlocksObj';
+import { IfBlocksObjType, itemIfBlockType } from 'shared/const/initIfBlocksObj';
 import { PositionType } from '../TemplateEditor/TemplateEditor';
 
 interface EditorBlockProps {
@@ -44,9 +44,11 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
             key={path?.join('') + field}
           />,
         );
-        if (value.next) {
-          const newPath = [...path, field, 'next'];
-          renderItemBlock(value.next, nesting + 1, newPath);
+        if (value.next?.length) {
+          value.next.forEach((item: IfBlocksObjType, index: number) => {
+            const newPath = [...path, field, 'next', `${index}`];
+            renderItemBlock(item, nesting + 1, newPath);
+          });
         }
       });
     };
