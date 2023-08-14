@@ -2,12 +2,15 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import cls from './TemplateEditor.module.css';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { HStack, VStack } from 'shared/ui/Stack';
-import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
-import { IfBlocksObj, initIfBlocksObj } from 'shared/const/initIfBlocksObj';
+import { IfBlocksObjType, initIfBlocksObj } from 'shared/const/initIfBlocksObj';
 import { EditorBlock } from '../EditorBlock/EditorBlock';
 import { EditorTop } from '../EditorTop/EditorTop';
+
+export interface PositionType {
+  path: string[];
+}
 
 interface TemplateEditorProps {
   className?: string;
@@ -26,10 +29,10 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
     setIsPreview(true);
   };
   const [ifBlocksObj, setIfBlocksObj] = useState(initIfBlocksObj);
-  const changeIfBlockObj = useCallback((value: IfBlocksObj) => {
+  const changeIfBlockObj = useCallback((value: IfBlocksObjType) => {
     setIfBlocksObj(value);
   }, []);
-  const [position, setPosition] = useState({ path: ['AFTER'] });
+  const [position, setPosition] = useState<PositionType>({ path: ['AFTER'] });
   console.log('position ' + position.path);
 
   return (
@@ -39,7 +42,12 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       max
       gap="16"
     >
-      <EditorTop arrVarNames={arrVarNames} />
+      <EditorTop
+        arrVarNames={arrVarNames}
+        changeIfBlockObj={changeIfBlockObj}
+        ifBlocksObj={ifBlocksObj}
+        position={position}
+      />
       <EditorBlock
         ifBlocksObj={ifBlocksObj}
         changeIfBlockObj={changeIfBlockObj}

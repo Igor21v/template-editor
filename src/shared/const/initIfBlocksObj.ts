@@ -1,16 +1,31 @@
-export interface itemIfBlock {
+export interface itemIfBlockType {
   value: string;
-  next?: IfBlocksObj;
+  next?: IfBlocksObjType;
 }
 
-export interface IfBlocksObj {
-  IF?: itemIfBlock;
-  THEN?: itemIfBlock;
-  ELSE?: itemIfBlock;
-  AFTER?: itemIfBlock;
+export interface IfBlocksObjType {
+  IF?: itemIfBlockType;
+  THEN?: itemIfBlockType;
+  ELSE?: itemIfBlockType;
+  AFTER?: itemIfBlockType;
 }
 
-export const initIfBlocksObj: IfBlocksObj = {
+export const emptyIfBlock = {
+  IF: {
+    value: '1',
+  },
+  THEN: {
+    value: '2',
+  },
+  ELSE: {
+    value: '3',
+  },
+  AFTER: {
+    value: '4',
+  },
+};
+
+export const initIfBlocksObj: IfBlocksObjType = {
   AFTER: {
     value: '222',
     next: {

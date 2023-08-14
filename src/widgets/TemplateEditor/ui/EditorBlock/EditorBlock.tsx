@@ -4,13 +4,14 @@ import { VStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Card } from 'shared/ui/Card';
 import { EditorBlockString } from './EditorBlockString';
-import { IfBlocksObj } from 'shared/const/initIfBlocksObj';
+import { IfBlocksObjType } from 'shared/const/initIfBlocksObj';
+import { PositionType } from '../TemplateEditor/TemplateEditor';
 
 interface EditorBlockProps {
   className?: string;
-  ifBlocksObj: IfBlocksObj;
-  changeIfBlockObj: (value: IfBlocksObj) => void;
-  setPosition: ({ path }: { path: string[] }) => void;
+  ifBlocksObj: IfBlocksObjType;
+  changeIfBlockObj: (value: IfBlocksObjType) => void;
+  setPosition: (path: PositionType) => void;
 }
 
 /**
@@ -26,7 +27,7 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
   const renderEditorBlocks = () => {
     let blockStrings: JSX.Element[] = [];
     const renderItemBlock = (
-      obj: IfBlocksObj,
+      obj: IfBlocksObjType,
       nesting: number,
       path: string[],
     ) => {

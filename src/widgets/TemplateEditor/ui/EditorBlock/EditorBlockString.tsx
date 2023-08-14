@@ -5,15 +5,16 @@ import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
-import { IfBlocksObj } from 'shared/const/initIfBlocksObj';
+import { IfBlocksObjType } from 'shared/const/initIfBlocksObj';
+import { PositionType } from '../TemplateEditor/TemplateEditor';
 
 interface EditorBlockStringProps {
   nesting: number;
   value: string;
   path: string[];
-  ifBlocksObj: IfBlocksObj;
-  changeIfBlockObj: (value: IfBlocksObj) => void;
-  setPosition: ({ path }: { path: string[] }) => void;
+  ifBlocksObj: IfBlocksObjType;
+  changeIfBlockObj: (value: IfBlocksObjType) => void;
+  setPosition: (path: PositionType) => void;
 }
 
 /**
