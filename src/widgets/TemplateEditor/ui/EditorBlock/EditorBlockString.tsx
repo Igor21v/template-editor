@@ -49,10 +49,12 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
   const deleteHandler = (path: string[]) => {
     return () => {
       let ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
-      const parentPath = path.slice(0, -2);
-      const index = path.slice(-2, -1);
-      const propertyVal = getPropertyFromPath(parentPath, ifBlocksObjClone);
-      propertyVal.splice(index, 1);
+      const parentPath = path.slice(0, -3);
+      const [index] = path.slice(-2, -1);
+      const parantProperty = getPropertyFromPath(parentPath, ifBlocksObjClone);
+      parantProperty.value =
+        parantProperty.value + parantProperty.next[parseInt(index)].AFTER.value;
+      parantProperty.next.splice(index, 1);
       changeIfBlockObj(ifBlocksObjClone);
       setPosition({ path: ['AFTER'], position: 0 });
     };
