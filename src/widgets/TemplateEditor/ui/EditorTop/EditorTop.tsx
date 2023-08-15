@@ -8,33 +8,30 @@ import { FocusType } from '../TemplateEditor/TemplateEditor';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import {
   createBlock,
-  IfBlocksObjType,
-} from 'widgets/TemplateEditor/model/objectBlock/createBlock';
+  TemplateType,
+} from 'widgets/TemplateEditor/model/objectTemplate/createBlock';
 
 interface TemplateEditorProps {
   arrVarNames: string[];
-  ifBlocksObj: IfBlocksObjType;
-  changeIfBlockObj: (value: IfBlocksObjType) => void;
+  template: TemplateType;
+  changeTemplate: (value: TemplateType) => void;
   focus: FocusType;
 }
 
 export const EditorTop = memo((props: TemplateEditorProps) => {
-  const { arrVarNames, changeIfBlockObj, ifBlocksObj, focus } = props;
+  const { arrVarNames, changeTemplate, template, focus } = props;
 
   const addBlock = () => {
     const field = focus.path.at(-1);
     if (field === 'THEN' || field === 'ELSE' || field === 'AFTER') {
-      const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
+      const templateClone = JSON.parse(JSON.stringify(template));
       // При добавлении поля AFTER добаляем новый блок родителю
       if (field === 'AFTER' && focus.path.length > 1) {
         const parentPath = focus.path.slice(0, -3);
         const path = focus.path;
         const index = focus.path.at(-2) || '0';
-        const parentProperty = getPropertyFromPath(
-          parentPath,
-          ifBlocksObjClone,
-        );
-        const property = getPropertyFromPath(path, ifBlocksObjClone);
+        const parentProperty = getPropertyFromPath(parentPath, templateClone);
+        const property = getPropertyFromPath(path, templateClone);
         const propertyVal = property.value;
         parentProperty.next.splice(
           1 + parseInt(index),
@@ -44,21 +41,21 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
         property.value = propertyVal.slice(0, focus.position);
       } else {
         const path = focus.path;
-        const property = getPropertyFromPath(path, ifBlocksObjClone);
+        const property = getPropertyFromPath(path, templateClone);
         property.next.unshift(
           createBlock(property.value.slice(focus.position)),
         );
         property.value = property.value.slice(0, focus.position);
       }
 
-      changeIfBlockObj(ifBlocksObjClone);
+      changeTemplate(templateClone);
     }
   };
 
   const addVar = (variable: string) => () => {
-    const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
+    const templateClone = JSON.parse(JSON.stringify(template));
     const path = focus.path;
-    const property = getPropertyFromPath(path, ifBlocksObjClone);
+    const property = getPropertyFromPath(path, templateClone);
     const propertyVal = property.value;
     console.log(focus.position);
     property.value =
@@ -67,7 +64,7 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
       variable +
       '}' +
       propertyVal.substring(focus.position);
-    changeIfBlockObj(ifBlocksObjClone);
+    changeTemplate(templateClone);
   };
 
   const preventDefault = (event: React.MouseEvent<HTMLElement>) => {

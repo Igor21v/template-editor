@@ -1,41 +1,41 @@
 import { memo } from 'react';
-import cls from './EditorBlock.module.css';
+import cls from './EditorBlocks.module.css';
 import { VStack } from 'shared/ui/Stack';
 import { Card } from 'shared/ui/Card';
 import { EditorBlockString } from './EditorBlockString';
 import { FocusType } from '../TemplateEditor/TemplateEditor';
-import { IfBlocksObjType } from 'widgets/TemplateEditor/model/objectBlock/createBlock';
+import { TemplateType } from 'widgets/TemplateEditor/model/objectTemplate/createBlock';
 
-interface EditorBlockProps {
+interface EditorBlocksProps {
   className?: string;
-  ifBlocksObj: IfBlocksObjType;
-  changeIfBlockObj: (value: IfBlocksObjType) => void;
+  template: TemplateType;
+  changeTemplate: (value: TemplateType) => void;
   setFocus: (path: FocusType) => void;
 }
 
 /**
  * Компонент рендера блока условий
- * ifBlocksObj - объект условий
- * changeIfBlockObj - функция изменения ifBlocksObj
+ * template - объект шаблона
+ * changeTemplate - функция изменения template
  */
 
-export const EditorBlock = memo((props: EditorBlockProps) => {
-  const { ifBlocksObj, changeIfBlockObj, setFocus: setPosition } = props;
+export const EditorBlocks = memo((props: EditorBlocksProps) => {
+  const { template, changeTemplate, setFocus: setPosition } = props;
 
   //Функция рендера блока условий из объекта
   const renderEditorBlocks = () => {
-    let blockStrings: JSX.Element[] = [];
+    let templateStrings: JSX.Element[] = [];
     const renderItemBlock = (
-      obj: IfBlocksObjType,
+      templateBlock: TemplateType,
       nesting: number,
       path: string[],
     ) => {
       //итерируемся по каждой строке в объекте
-      Object.entries(obj).forEach(([field, value]) => {
-        blockStrings.push(
+      Object.entries(templateBlock).forEach(([field, value]) => {
+        templateStrings.push(
           <EditorBlockString
-            changeIfBlockObj={changeIfBlockObj}
-            ifBlocksObj={ifBlocksObj}
+            changeTemplate={changeTemplate}
+            template={template}
             nesting={nesting}
             path={[...path, field]}
             value={value.value}
@@ -44,15 +44,15 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
           />,
         );
         if (value.next?.length) {
-          value.next.forEach((item: IfBlocksObjType, index: number) => {
+          value.next.forEach((item: TemplateType, index: number) => {
             const newPath = [...path, field, 'next', `${index}`];
             renderItemBlock(item, nesting + 1, newPath);
           });
         }
       });
     };
-    renderItemBlock(ifBlocksObj, 0, []);
-    return blockStrings;
+    renderItemBlock(template, 0, []);
+    return templateStrings;
   };
 
   return (

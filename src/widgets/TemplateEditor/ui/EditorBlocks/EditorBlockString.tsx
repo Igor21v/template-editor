@@ -1,19 +1,19 @@
 import { memo } from 'react';
-import cls from './EditorBlock.module.css';
+import cls from './EditorBlocks.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import { FocusType } from '../TemplateEditor/TemplateEditor';
-import { IfBlocksObjType } from 'widgets/TemplateEditor/model/objectBlock/createBlock';
+import { TemplateType } from 'widgets/TemplateEditor/model/objectTemplate/createBlock';
 
 interface EditorBlockStringProps {
   nesting: number;
   value: string;
   path: string[];
-  ifBlocksObj: IfBlocksObjType;
-  changeIfBlockObj: (value: IfBlocksObjType) => void;
+  template: TemplateType;
+  changeTemplate: (value: TemplateType) => void;
   setFocus: (position: FocusType) => void;
 }
 
@@ -22,46 +22,41 @@ interface EditorBlockStringProps {
  * nesting - уровень вложенности условия (для сдвига блока условия вправо)
  * value - занчие поля
  * path - путь до объекта (формат ['IF','next','THEN','next', 'ELSE])
- * ifBlocksObj - объект условий
- * changeIfBlockObj - функция изменения ifBlocksObj
+ * template - объект шаблона
+ * changeTemplate - функция изменения template
  * setPosition - функция запоминания позиции курсора
  */
 
 export const EditorBlockString = memo((props: EditorBlockStringProps) => {
-  const {
-    nesting,
-    value,
-    path,
-    changeIfBlockObj,
-    ifBlocksObj,
-    setFocus: setPosition,
-  } = props;
+  const { nesting, value, path, changeTemplate, template, setFocus } = props;
 
   const areaOnChangeHandler = (path: string[]) => {
     return (value?: string) => {
-      const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
-      const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
+      const templateClone = JSON.parse(JSON.stringify(template));
+      const propertyVal = getPropertyFromPath(path, templateClone);
       propertyVal.value = value;
-      changeIfBlockObj(ifBlocksObjClone);
+      changeTemplate(templateClone);
     };
   };
 
   const deleteHandler = (path: string[]) => {
     return () => {
-      let ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
+      let templateClone = JSON.parse(JSON.stringify(template));
       const parentPath = path.slice(0, -3);
       const [index] = path.slice(-2, -1);
-      const parantProperty = getPropertyFromPath(parentPath, ifBlocksObjClone);
-      parantProperty.value =
-        parantProperty.value + parantProperty.next[parseInt(index)].AFTER.value;
-      parantProperty.next.splice(index, 1);
-      changeIfBlockObj(ifBlocksObjClone);
-      setPosition({ path: ['AFTER'], position: 0 });
+      console.log(parentPath);
+      console.log(template);
+      const parentProperty = getPropertyFromPath(parentPath, templateClone);
+      parentProperty.value =
+        parentProperty.value + parentProperty.next[parseInt(index)].AFTER.value;
+      parentProperty.next.splice(index, 1);
+      changeTemplate(templateClone);
+      setFocus({ path: ['AFTER'], position: 0 });
     };
   };
 
   const setPositionHandler = (path: string[]) => (selectionStart?: number) => {
-    setPosition({ path, position: selectionStart });
+    setFocus({ path, position: selectionStart });
   };
 
   let content = null;

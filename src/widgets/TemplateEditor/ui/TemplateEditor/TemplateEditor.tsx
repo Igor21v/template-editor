@@ -5,12 +5,12 @@ import { HStack, VStack } from 'shared/ui/Stack';
 import { Button } from 'shared/ui/Button';
 import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
 
-import { EditorBlock } from '../EditorBlock/EditorBlock';
+import { EditorBlocks } from '../EditorBlocks/EditorBlocks';
 import { EditorTop } from '../EditorTop/EditorTop';
 import {
-  IfBlocksObjType,
-  initIfBlocksObj,
-} from 'widgets/TemplateEditor/model/objectBlock/createBlock';
+  TemplateType,
+  initTemplate,
+} from 'widgets/TemplateEditor/model/objectTemplate/createBlock';
 
 export interface FocusType {
   path: string[];
@@ -33,9 +33,9 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   const onShowPreview = () => {
     setIsPreview(true);
   };
-  const [ifBlocksObj, setIfBlocksObj] = useState(initIfBlocksObj);
-  const changeIfBlockObj = useCallback((value: IfBlocksObjType) => {
-    setIfBlocksObj(value);
+  const [template, setTemplate] = useState(initTemplate);
+  const changeTemplate = useCallback((value: TemplateType) => {
+    setTemplate(value);
   }, []);
   const [focus, setFocus] = useState<FocusType>({ path: ['AFTER'] });
 
@@ -52,13 +52,13 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
     >
       <EditorTop
         arrVarNames={arrVarNames}
-        changeIfBlockObj={changeIfBlockObj}
-        ifBlocksObj={ifBlocksObj}
+        changeTemplate={changeTemplate}
+        template={template}
         focus={focus}
       />
-      <EditorBlock
-        ifBlocksObj={ifBlocksObj}
-        changeIfBlockObj={changeIfBlockObj}
+      <EditorBlocks
+        template={template}
+        changeTemplate={changeTemplate}
         setFocus={setFocus}
       />
       <HStack max justify="center" gap="64">
