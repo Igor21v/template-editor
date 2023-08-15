@@ -54,12 +54,12 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
       const propertyVal = getPropertyFromPath(parentPath, ifBlocksObjClone);
       propertyVal.splice(index, 1);
       changeIfBlockObj(ifBlocksObjClone);
+      setPosition({ path: ['AFTER'], position: 0 });
     };
   };
 
   const setPositionHandler = (path: string[]) => (selectionStart?: number) => {
     setPosition({ path, position: selectionStart });
-    console.log('Selection');
   };
 
   let content = null;
@@ -71,6 +71,7 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
             value={value}
             onChange={areaOnChangeHandler(path)}
             onSelect={setPositionHandler(path)}
+            autoFocus={!nesting}
           />
         </HStack>
       );
@@ -91,7 +92,7 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
           <TextAreaAutosize
             value={value}
             onChange={areaOnChangeHandler(path)}
-            onFocus={setPositionHandler(path)}
+            onSelect={setPositionHandler(path)}
           />
         </HStack>
       );

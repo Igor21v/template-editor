@@ -10,10 +10,12 @@ interface TextAreaAutosizeProps {
   readOnly?: boolean;
   onFocus?: () => void;
   onSelect?: (selectionStart?: number, selectionEnd?: number) => void;
+  autoFocus?: boolean;
 }
 
 export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
-  const { className, value, onChange, readOnly, onFocus, onSelect } = props;
+  const { className, value, onChange, readOnly, onFocus, onSelect, autoFocus } =
+    props;
   const areaRef = useRef<HTMLTextAreaElement>(null);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,6 +40,7 @@ export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
       onFocus={onFocus}
       onSelect={selectHandler}
       ref={areaRef}
+      autoFocus={autoFocus}
     />
   );
 });

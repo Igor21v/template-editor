@@ -30,7 +30,7 @@ export const createBlock = (afterValue = '') => ({
 
 export const initIfBlocksObj: IfBlocksObjType = {
   AFTER: {
-    value: '222',
+    value: '',
     next: [
       {
         IF: {

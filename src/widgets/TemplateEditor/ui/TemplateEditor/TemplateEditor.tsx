@@ -39,6 +39,10 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   }, []);
   const [focus, setFocus] = useState<FocusType>({ path: ['AFTER'] });
 
+  const preventDefault = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <VStack
       align="center"
@@ -59,7 +63,11 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       />
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>
-        <Button theme="outlineGreen" onClick={saveHandler}>
+        <Button
+          theme="outlineGreen"
+          onClick={saveHandler}
+          onMouseDown={preventDefault}
+        >
           Save
         </Button>
         <Button theme="outlineRed" onClick={closeHandler}>
