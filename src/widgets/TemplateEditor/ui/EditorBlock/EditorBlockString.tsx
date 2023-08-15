@@ -5,8 +5,8 @@ import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
-import { IfBlocksObjType } from 'shared/const/initIfBlocksObj';
 import { PositionType } from '../TemplateEditor/TemplateEditor';
+import { IfBlocksObjType } from 'widgets/TemplateEditor/model/objectBlock/createBlock';
 
 interface EditorBlockStringProps {
   nesting: number;
@@ -14,7 +14,7 @@ interface EditorBlockStringProps {
   path: string[];
   ifBlocksObj: IfBlocksObjType;
   changeIfBlockObj: (value: IfBlocksObjType) => void;
-  setPosition: (path: PositionType) => void;
+  setPosition: (position: PositionType) => void;
 }
 
 /**
@@ -51,8 +51,9 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
     };
   };
 
-  const setPositionHandler = (path: string[]) => () => {
-    setPosition({ path });
+  const setPositionHandler = (path: string[]) => (selectionStart?: number) => {
+    setPosition({ path, position: selectionStart });
+    console.log('Selection');
   };
 
   let content = null;
@@ -63,7 +64,7 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
           <TextAreaAutosize
             value={value}
             onChange={areaOnChangeHandler(path)}
-            onFocus={setPositionHandler(path)}
+            onSelect={setPositionHandler(path)}
           />
         </HStack>
       );
@@ -96,7 +97,7 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
           <TextAreaAutosize
             value={value}
             onChange={areaOnChangeHandler(path)}
-            onFocus={setPositionHandler(path)}
+            onSelect={setPositionHandler(path)}
           />
         </HStack>
       );

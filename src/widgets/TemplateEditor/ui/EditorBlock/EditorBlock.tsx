@@ -1,11 +1,10 @@
 import { memo } from 'react';
 import cls from './EditorBlock.module.css';
 import { VStack } from 'shared/ui/Stack';
-import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Card } from 'shared/ui/Card';
 import { EditorBlockString } from './EditorBlockString';
-import { IfBlocksObjType, itemIfBlockType } from 'shared/const/initIfBlocksObj';
 import { PositionType } from '../TemplateEditor/TemplateEditor';
+import { IfBlocksObjType } from 'widgets/TemplateEditor/model/objectBlock/createBlock';
 
 interface EditorBlockProps {
   className?: string;

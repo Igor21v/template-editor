@@ -4,12 +4,17 @@ import { classNames } from 'shared/lib/classNames/classNames';
 import { HStack, VStack } from 'shared/ui/Stack';
 import { Button } from 'shared/ui/Button';
 import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
-import { IfBlocksObjType, initIfBlocksObj } from 'shared/const/initIfBlocksObj';
+
 import { EditorBlock } from '../EditorBlock/EditorBlock';
 import { EditorTop } from '../EditorTop/EditorTop';
+import {
+  IfBlocksObjType,
+  initIfBlocksObj,
+} from 'widgets/TemplateEditor/model/objectBlock/createBlock';
 
 export interface PositionType {
   path: string[];
+  position?: number;
 }
 
 interface TemplateEditorProps {

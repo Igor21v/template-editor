@@ -3,9 +3,13 @@ import cls from './EditorTop.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
-import { emptyIfBlock, IfBlocksObjType } from 'shared/const/initIfBlocksObj';
+
 import { PositionType } from '../TemplateEditor/TemplateEditor';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
+import {
+  createBlock,
+  IfBlocksObjType,
+} from 'widgets/TemplateEditor/model/objectBlock/createBlock';
 
 interface TemplateEditorProps {
   arrVarNames: string[];
@@ -21,6 +25,7 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
       <Button theme="backgroundInverted" key={badge}>{`{${badge}}`}</Button>
     ));
   }, [arrVarNames]);
+
   const addBlock = () => {
     const field = position.path.at(-1);
     if (field === 'THEN' || field === 'ELSE' || field === 'AFTER') {
@@ -30,12 +35,20 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
         path = position.path.slice(0, -3);
         const index = position.path.at(-2);
         const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
-        propertyVal.next.splice(1 + parseInt(index || '0'), 0, emptyIfBlock);
+        propertyVal.next.splice(
+          1 + parseInt(index || '0'),
+          0,
+          createBlock('ff'),
+        );
       } else {
         path = position.path;
         const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
-        propertyVal.next.unshift(emptyIfBlock);
+        const valueSourceField = propertyVal.value;
+        console.log(valueSourceField);
+        propertyVal.next.unshift(createBlock('vv'));
       }
+
+      console.log('position ' + position.position);
       changeIfBlockObj(ifBlocksObjClone);
     }
   };
