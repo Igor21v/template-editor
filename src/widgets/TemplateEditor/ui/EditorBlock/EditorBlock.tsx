@@ -3,14 +3,14 @@ import cls from './EditorBlock.module.css';
 import { VStack } from 'shared/ui/Stack';
 import { Card } from 'shared/ui/Card';
 import { EditorBlockString } from './EditorBlockString';
-import { PositionType } from '../TemplateEditor/TemplateEditor';
+import { FocusType } from '../TemplateEditor/TemplateEditor';
 import { IfBlocksObjType } from 'widgets/TemplateEditor/model/objectBlock/createBlock';
 
 interface EditorBlockProps {
   className?: string;
   ifBlocksObj: IfBlocksObjType;
   changeIfBlockObj: (value: IfBlocksObjType) => void;
-  setPosition: (path: PositionType) => void;
+  setFocus: (path: FocusType) => void;
 }
 
 /**
@@ -20,7 +20,7 @@ interface EditorBlockProps {
  */
 
 export const EditorBlock = memo((props: EditorBlockProps) => {
-  const { ifBlocksObj, changeIfBlockObj, setPosition } = props;
+  const { ifBlocksObj, changeIfBlockObj, setFocus: setPosition } = props;
 
   //Функция рендера блока условий из объекта
   const renderEditorBlocks = () => {
@@ -39,7 +39,7 @@ export const EditorBlock = memo((props: EditorBlockProps) => {
             nesting={nesting}
             path={[...path, field]}
             value={value.value}
-            setPosition={setPosition}
+            setFocus={setPosition}
             key={path?.join('') + field}
           />,
         );

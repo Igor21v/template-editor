@@ -5,7 +5,7 @@ import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
-import { PositionType } from '../TemplateEditor/TemplateEditor';
+import { FocusType } from '../TemplateEditor/TemplateEditor';
 import { IfBlocksObjType } from 'widgets/TemplateEditor/model/objectBlock/createBlock';
 
 interface EditorBlockStringProps {
@@ -14,7 +14,7 @@ interface EditorBlockStringProps {
   path: string[];
   ifBlocksObj: IfBlocksObjType;
   changeIfBlockObj: (value: IfBlocksObjType) => void;
-  setPosition: (position: PositionType) => void;
+  setFocus: (position: FocusType) => void;
 }
 
 /**
@@ -28,8 +28,14 @@ interface EditorBlockStringProps {
  */
 
 export const EditorBlockString = memo((props: EditorBlockStringProps) => {
-  const { nesting, value, path, changeIfBlockObj, ifBlocksObj, setPosition } =
-    props;
+  const {
+    nesting,
+    value,
+    path,
+    changeIfBlockObj,
+    ifBlocksObj,
+    setFocus: setPosition,
+  } = props;
 
   const areaOnChangeHandler = (path: string[]) => {
     return (value?: string) => {

@@ -4,7 +4,7 @@ import { HStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 
-import { PositionType } from '../TemplateEditor/TemplateEditor';
+import { FocusType } from '../TemplateEditor/TemplateEditor';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import {
   createBlock,
@@ -15,11 +15,11 @@ interface TemplateEditorProps {
   arrVarNames: string[];
   ifBlocksObj: IfBlocksObjType;
   changeIfBlockObj: (value: IfBlocksObjType) => void;
-  position: PositionType;
+  focus: FocusType;
 }
 
 export const EditorTop = memo((props: TemplateEditorProps) => {
-  const { arrVarNames, changeIfBlockObj, ifBlocksObj, position } = props;
+  const { arrVarNames, changeIfBlockObj, ifBlocksObj, focus } = props;
   const renderVarNamemes = useMemo(() => {
     return arrVarNames.map((badge: string) => (
       <Button theme="backgroundInverted" key={badge}>{`{${badge}}`}</Button>
@@ -27,28 +27,30 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
   }, [arrVarNames]);
 
   const addBlock = () => {
-    const field = position.path.at(-1);
+    const field = focus.path.at(-1);
     if (field === 'THEN' || field === 'ELSE' || field === 'AFTER') {
       const ifBlocksObjClone = JSON.parse(JSON.stringify(ifBlocksObj));
-      let path = [];
-      if (field === 'AFTER' && position.path.length > 1) {
-        path = position.path.slice(0, -3);
-        const index = position.path.at(-2);
-        const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
-        propertyVal.next.splice(
-          1 + parseInt(index || '0'),
+      // При добавлении поля AFTER добаляем новый блок родителю
+      if (field === 'AFTER' && focus.path.length > 1) {
+        const path = focus.path.slice(0, -3);
+        const index = focus.path.at(-2) || '0';
+        const property = getPropertyFromPath(path, ifBlocksObjClone);
+        const propertyVal = property.next[index].AFTER.value;
+        property.next.splice(
+          1 + parseInt(index),
           0,
-          createBlock('ff'),
+          createBlock(propertyVal.slice(focus.position)),
         );
+        property.next[index].AFTER.value = propertyVal.slice(0, focus.position);
       } else {
-        path = position.path;
-        const propertyVal = getPropertyFromPath(path, ifBlocksObjClone);
-        const valueSourceField = propertyVal.value;
-        console.log(valueSourceField);
-        propertyVal.next.unshift(createBlock('vv'));
+        const path = focus.path;
+        const property = getPropertyFromPath(path, ifBlocksObjClone);
+        property.next.unshift(
+          createBlock(property.value.slice(focus.position)),
+        );
+        property.value = property.value.slice(0, focus.position);
       }
 
-      console.log('position ' + position.position);
       changeIfBlockObj(ifBlocksObjClone);
     }
   };

@@ -12,7 +12,7 @@ import {
   initIfBlocksObj,
 } from 'widgets/TemplateEditor/model/objectBlock/createBlock';
 
-export interface PositionType {
+export interface FocusType {
   path: string[];
   position?: number;
 }
@@ -37,7 +37,7 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   const changeIfBlockObj = useCallback((value: IfBlocksObjType) => {
     setIfBlocksObj(value);
   }, []);
-  const [position, setPosition] = useState<PositionType>({ path: ['AFTER'] });
+  const [focus, setFocus] = useState<FocusType>({ path: ['AFTER'] });
 
   return (
     <VStack
@@ -50,12 +50,12 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
         arrVarNames={arrVarNames}
         changeIfBlockObj={changeIfBlockObj}
         ifBlocksObj={ifBlocksObj}
-        position={position}
+        focus={focus}
       />
       <EditorBlock
         ifBlocksObj={ifBlocksObj}
         changeIfBlockObj={changeIfBlockObj}
-        setPosition={setPosition}
+        setFocus={setFocus}
       />
       <HStack max justify="center" gap="64">
         <Button onClick={onShowPreview}>Preview</Button>
