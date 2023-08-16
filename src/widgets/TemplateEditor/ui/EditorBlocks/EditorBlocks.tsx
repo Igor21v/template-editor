@@ -4,7 +4,7 @@ import { VStack } from 'shared/ui/Stack';
 import { Card } from 'shared/ui/Card';
 import { EditorBlockString } from './EditorBlockString';
 import { FocusType } from '../TemplateEditor/TemplateEditor';
-import { TemplateType } from 'widgets/TemplateEditor/model/objectTemplate/createBlock';
+import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface EditorBlocksProps {
   className?: string;

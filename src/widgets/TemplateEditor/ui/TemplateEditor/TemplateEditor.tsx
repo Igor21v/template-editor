@@ -7,10 +7,8 @@ import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
 
 import { EditorBlocks } from '../EditorBlocks/EditorBlocks';
 import { EditorTop } from '../EditorTop/EditorTop';
-import {
-  TemplateType,
-  initTemplate,
-} from 'widgets/TemplateEditor/model/objectTemplate/createBlock';
+import { initTemplate } from 'widgets/TemplateEditor/model/consts/emptyIfBlock';
+import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 export interface FocusType {
   path: string[];
@@ -75,7 +73,12 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
         </Button>
       </HStack>
       {isPreview && (
-        <TemplatePreview onClose={onClosePreview} isOpen={isPreview} />
+        <TemplatePreview
+          onClose={onClosePreview}
+          isOpen={isPreview}
+          arrVarNames={arrVarNames}
+          template={template}
+        />
       )}
     </VStack>
   );

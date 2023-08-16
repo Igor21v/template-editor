@@ -1,16 +1,5 @@
-export interface ItemTemplateType {
-  value: string;
-  next?: TemplateType[];
-}
-
-export interface TemplateType {
-  IF?: ItemTemplateType;
-  THEN?: ItemTemplateType;
-  ELSE?: ItemTemplateType;
-  AFTER?: ItemTemplateType;
-}
-
-export const createBlock = (afterValue = '') => ({
+import { TemplateType } from '../types/TemplateType';
+export const createIfBlock = (afterValue = '') => ({
   IF: {
     value: '1',
   },

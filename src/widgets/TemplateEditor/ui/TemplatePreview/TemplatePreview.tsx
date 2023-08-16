@@ -1,22 +1,25 @@
-import { memo, useCallback, useState } from "react";
-import cls from "./TemplatePreview.module.css";
-import { classNames } from "shared/lib/classNames/classNames";
-import { Modal } from "shared/ui/Modal";
-import { Card } from "shared/ui/Card";
-import { HStack, VStack } from "shared/ui/Stack";
-import { Text } from "shared/ui/Text";
-import { Input } from "shared/ui/Input";
-import { TextAreaAutosize } from "shared/ui/TextAreaAutosize";
-import { Button } from "shared/ui/Button";
+import { memo, useCallback, useState } from 'react';
+import cls from './TemplatePreview.module.css';
+import { classNames } from 'shared/lib/classNames/classNames';
+import { Modal } from 'shared/ui/Modal';
+import { Card } from 'shared/ui/Card';
+import { HStack, VStack } from 'shared/ui/Stack';
+import { Text } from 'shared/ui/Text';
+import { Input } from 'shared/ui/Input';
+import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
+import { Button } from 'shared/ui/Button';
+import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface TemplatePreviewProps {
   className?: string;
   onClose?: () => void;
   isOpen: boolean;
+  arrVarNames: string[];
+  template: TemplateType;
 }
 
 export const TemplatePreview = memo((props: TemplatePreviewProps) => {
-  const { className, onClose, isOpen } = props;
+  const { className, onClose, isOpen, arrVarNames } = props;
   const [needModalClose, setNeedModalClose] = useState(false);
   const resetNeedModalClose = useCallback(() => {
     setNeedModalClose(false);

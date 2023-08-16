@@ -6,10 +6,8 @@ import { Button } from 'shared/ui/Button';
 
 import { FocusType } from '../TemplateEditor/TemplateEditor';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
-import {
-  createBlock,
-  TemplateType,
-} from 'widgets/TemplateEditor/model/objectTemplate/createBlock';
+import { createIfBlock } from 'widgets/TemplateEditor/model/consts/emptyIfBlock';
+import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface TemplateEditorProps {
   arrVarNames: string[];
@@ -36,14 +34,14 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
         parentProperty.next.splice(
           1 + parseInt(index),
           0,
-          createBlock(propertyVal.slice(focus.position)),
+          createIfBlock(propertyVal.slice(focus.position)),
         );
         property.value = propertyVal.slice(0, focus.position);
       } else {
         const path = focus.path;
         const property = getPropertyFromPath(path, templateClone);
         property.next.unshift(
-          createBlock(property.value.slice(focus.position)),
+          createIfBlock(property.value.slice(focus.position)),
         );
         property.value = property.value.slice(0, focus.position);
       }
