@@ -19,21 +19,64 @@ export const createIfBlock = (afterValue = '') => ({
 
 export const initTemplate: TemplateType = {
   AFTER: {
-    value: '',
+    value: 'Привет ',
     next: [
       {
         IF: {
-          value: '4',
+          value: '{firstname}',
         },
         THEN: {
-          value: '123',
+          value: '{firstname}',
           next: [
             {
               IF: {
-                value: 'tt',
+                value: '{lastname}',
               },
               THEN: {
-                value: 'gd',
+                value: '{lastname}',
+                next: [],
+              },
+              ELSE: {
+                value: '',
+                next: [],
+              },
+              AFTER: {
+                value: '',
+                next: [],
+              },
+            },
+          ],
+        },
+        ELSE: {
+          value: 'незнакомец',
+          next: [],
+        },
+        AFTER: {
+          value: 'Пока',
+          next: [],
+        },
+      },
+    ],
+  },
+};
+
+/* export const initTemplate: TemplateType = {
+  AFTER: {
+    value: 'Привет ',
+    next: [
+      {
+        IF: {
+          value: '{firstname}',
+        },
+        THEN: {
+          value: '{firstname}',
+          next: [
+            {
+              IF: {
+                value: '{lastname}',
+              },
+              THEN: {
+                value: '{lastname}',
                 next: [],
               },
               ELSE: {
@@ -75,4 +118,4 @@ export const initTemplate: TemplateType = {
       },
     ],
   },
-};
+}; */

@@ -3,12 +3,13 @@ import cls from './TemplateEditor.module.css';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { HStack, VStack } from 'shared/ui/Stack';
 import { Button } from 'shared/ui/Button';
-import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
+import { TemplatePreview } from '../MessagePreview/MessagePreview';
 
-import { EditorBlocks } from '../EditorBlocks/EditorBlocks';
-import { EditorTop } from '../EditorTop/EditorTop';
-import { initTemplate } from 'widgets/TemplateEditor/model/consts/createIfBlock';
+import { EditorBlocks } from './EditorBlocks/EditorBlocks';
+
+import { initTemplate } from 'widgets/TemplateEditor/model/services/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
+import { EditorTop } from './EditorTop/EditorTop';
 
 export interface FocusType {
   path: string[];

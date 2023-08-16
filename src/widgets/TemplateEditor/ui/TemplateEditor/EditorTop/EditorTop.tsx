@@ -4,10 +4,10 @@ import { HStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
 
-import { FocusType } from '../TemplateEditor/TemplateEditor';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
-import { createIfBlock } from 'widgets/TemplateEditor/model/consts/createIfBlock';
+import { createIfBlock } from 'widgets/TemplateEditor/model/services/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
+import { FocusType } from '../TemplateEditor';
 
 interface TemplateEditorProps {
   arrVarNames: string[];

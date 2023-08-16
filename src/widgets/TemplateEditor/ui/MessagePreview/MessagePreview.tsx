@@ -1,5 +1,5 @@
-import { memo, useCallback, useState } from 'react';
-import cls from './TemplatePreview.module.css';
+import { memo, useCallback, useMemo, useState } from 'react';
+import cls from './MessagePreview.module.css';
 import { Modal } from 'shared/ui/Modal';
 import { HStack, VStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
@@ -26,7 +26,36 @@ export const TemplatePreview = memo((props: TemplatePreviewProps) => {
   const cancelHandle = useCallback(() => {
     setNeedModalClose(true);
   }, []);
-  const message = generateMessage(template, arrVarNames);
+  const getInitValues = (arrVarNames: string[]) => {
+    const initValues: Record<string, string> = {};
+    arrVarNames.forEach((item) => {
+      initValues[item] = 'Igor';
+    });
+    return initValues;
+  };
+
+  const [values, setValues] = useState(getInitValues(arrVarNames));
+  const message = generateMessage(template, values);
+
+  const inputs = useMemo(
+    () => (values: Record<string, string>) => {
+      const onChangeHandler = (key: string) => (value: string) => {
+        setValues({ ...values, [key]: value });
+      };
+      const inputs = Object.entries(values).map(([key, value]) => {
+        return (
+          <Input
+            placeholder={key}
+            value={value}
+            onChange={onChangeHandler(key)}
+            key={key}
+          />
+        );
+      });
+      return inputs;
+    },
+    [],
+  );
 
   return (
     <Modal
@@ -40,10 +69,7 @@ export const TemplatePreview = memo((props: TemplatePreviewProps) => {
         <TextAreaAutosize readOnly value={message} />
         <HStack wrap gap="8">
           <Text text="Variables: " />
-          <Input placeholder="firstname" />
-          <Input placeholder="lastname" />
-          <Input placeholder="company" />
-          <Input placeholder="position" />
+          {inputs(values)}
         </HStack>
         <Button onClick={cancelHandle}>Close</Button>
       </VStack>
