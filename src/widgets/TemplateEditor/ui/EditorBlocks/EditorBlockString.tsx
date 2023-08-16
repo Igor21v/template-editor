@@ -42,13 +42,22 @@ export const EditorBlockString = memo((props: EditorBlockStringProps) => {
   const deleteHandler = (path: string[]) => {
     return () => {
       let templateClone = JSON.parse(JSON.stringify(template));
-      const parentPath = path.slice(0, -3);
-      const [index] = path.slice(-2, -1);
-      console.log(parentPath);
-      console.log(template);
-      const parentProperty = getPropertyFromPath(parentPath, templateClone);
-      parentProperty.value =
-        parentProperty.value + parentProperty.next[parseInt(index)].AFTER.value;
+      const index = parseInt(path.slice(-2, -1)[0]);
+      // Вычисляем родительский блок
+      const parentPropertyPath = path.slice(0, -3);
+      const parentProperty = getPropertyFromPath(
+        parentPropertyPath,
+        templateClone,
+      );
+      // Добавляем текс с удаляемого блока на верхний блок
+      let concatPath = parentPropertyPath;
+      // Если есть блок токо же уровня сверху то добавляем в него
+      if (index > 0) {
+        concatPath = [...parentPropertyPath, 'next', `${index - 1}`, 'AFTER'];
+      }
+      const concatProperty = getPropertyFromPath(concatPath, templateClone);
+      concatProperty.value =
+        concatProperty.value + parentProperty.next[index].AFTER.value;
       parentProperty.next.splice(index, 1);
       changeTemplate(templateClone);
       setFocus({ path: ['AFTER'], position: 0 });

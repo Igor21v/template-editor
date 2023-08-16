@@ -7,7 +7,7 @@ import { TemplatePreview } from '../TemplatePreview/TemplatePreview';
 
 import { EditorBlocks } from '../EditorBlocks/EditorBlocks';
 import { EditorTop } from '../EditorTop/EditorTop';
-import { initTemplate } from 'widgets/TemplateEditor/model/consts/emptyIfBlock';
+import { initTemplate } from 'widgets/TemplateEditor/model/consts/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 export interface FocusType {

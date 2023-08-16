@@ -6,7 +6,7 @@ import { Button } from 'shared/ui/Button';
 
 import { FocusType } from '../TemplateEditor/TemplateEditor';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
-import { createIfBlock } from 'widgets/TemplateEditor/model/consts/emptyIfBlock';
+import { createIfBlock } from 'widgets/TemplateEditor/model/consts/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface TemplateEditorProps {
