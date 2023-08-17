@@ -3,10 +3,7 @@ import cls from './TemplateEditor.module.css';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { VStack } from 'shared/ui/Stack';
 import { TemplatePreview } from '../MessagePreview/MessagePreview';
-
 import { EditorContent } from './EditorContent/EditorContent';
-
-import { initTemplate } from 'widgets/TemplateEditor/model/services/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 import { TopBar } from './TopBar/TopBar';
 import { BottomBar } from './BottomBar/BottomBar';
@@ -21,10 +18,12 @@ interface TemplateEditorProps {
   closeHandler: () => void;
   saveHandler: () => void;
   arrVarNames: string[];
+  initTemplate: TemplateType;
 }
 
 export const TemplateEditor = memo((props: TemplateEditorProps) => {
-  const { className, closeHandler, saveHandler, arrVarNames } = props;
+  const { className, closeHandler, saveHandler, arrVarNames, initTemplate } =
+    props;
   const [isPreview, setIsPreview] = useState(false);
   const onClosePreview = () => {
     setIsPreview(false);
