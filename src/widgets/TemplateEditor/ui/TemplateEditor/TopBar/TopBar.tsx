@@ -15,6 +15,14 @@ interface TemplateEditorProps {
   focus: FocusType;
 }
 
+/**
+ * Верхняя панель
+ * arrVarNames - массив имен переменных
+ * template - объект шаблона
+ * changeTemplate - функция изменения template
+ * focus - место последнего фокуса
+ */
+
 export const TopBar = memo((props: TemplateEditorProps) => {
   const { arrVarNames, changeTemplate, template, focus } = props;
 

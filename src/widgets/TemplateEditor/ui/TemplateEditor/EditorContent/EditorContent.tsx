@@ -15,7 +15,7 @@ interface EditorContentProps {
  * Компонент содержимого шаблона сообщения
  * template - объект шаблона
  * changeTemplate - функция изменения template
- * setFocus - функция запоминания фокуса и положения курсора
+ * setFocus - функция запоминания фокуса
  */
 
 export const EditorContent = memo((props: EditorContentProps) => {

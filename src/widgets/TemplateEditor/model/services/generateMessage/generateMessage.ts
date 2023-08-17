@@ -1,5 +1,12 @@
 import { TemplateType } from '../../types/TemplateType';
 
+/**
+ *
+ * @param template шаблон сообщения
+ * @param values значения переменных (объект вида {name : value})
+ * @returns сгенерированная строка сообщения
+ */
+
 export const generateMessage = (
   template: TemplateType,
   values: Record<string, string>,

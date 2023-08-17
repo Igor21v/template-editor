@@ -8,17 +8,25 @@ import { classNames } from 'shared/lib/classNames/classNames';
 interface BottomBarProps {
   closeHandler: () => void;
   callbackSave: (template: TemplateType) => Promise<void>;
-  setIsPreview: (val: boolean) => void;
+  setShowPreview: (val: boolean) => void;
   template: TemplateType;
 }
 
+/**
+ * Нижняя панель
+ * closeHandler - функция закрытия редактора
+ * callbackSave - функция сохранения шаблона сообщения
+ * setShowPreview - функция вызова окна предварительного просмотра сообщения
+ * template - объект шаблона
+ */
+
 export const BottomBar = memo((props: BottomBarProps) => {
-  const { closeHandler, callbackSave, setIsPreview, template } = props;
+  const { closeHandler, callbackSave, setShowPreview, template } = props;
   const preventDefault = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
   };
   const onShowPreview = () => {
-    setIsPreview(true);
+    setShowPreview(true);
   };
   const [seved, setSaved] = useState(false);
   const saveHandler = async () => {

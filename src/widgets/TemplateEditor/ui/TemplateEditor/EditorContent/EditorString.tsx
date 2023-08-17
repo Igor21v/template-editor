@@ -8,26 +8,26 @@ import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import { FocusType } from '../TemplateEditor';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
-interface EditorBlockStringProps {
+interface EditorStringProps {
   nesting: number;
   value: string;
+  changeTemplate: (value: TemplateType) => void;
   path: string[];
   template: TemplateType;
-  changeTemplate: (value: TemplateType) => void;
   setFocus: (position: FocusType) => void;
 }
 
 /**
  * Компонент рендера строки блока условий
  * nesting - уровень вложенности условия (для сдвига блока условия вправо)
- * value - занчие поля
+ * value - значение строки
+ * changeTemplate - функция изменения template
  * path - путь до объекта (формат ['IF','next','THEN','next', 'ELSE])
  * template - объект шаблона
- * changeTemplate - функция изменения template
- * setPosition - функция запоминания позиции курсора
+ * setFocus - функция запоминания фокуса
  */
 
-export const EditorString = memo((props: EditorBlockStringProps) => {
+export const EditorString = memo((props: EditorStringProps) => {
   const { nesting, value, path, changeTemplate, template, setFocus } = props;
 
   const areaOnChangeHandler = (path: string[]) => {

@@ -9,12 +9,19 @@ import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 import { generateMessage } from 'widgets/TemplateEditor/model/services/generateMessage/generateMessage';
 
 interface TemplatePreviewProps {
-  className?: string;
   onClose?: () => void;
   isOpen: boolean;
   arrVarNames: string[];
   template: TemplateType;
 }
+
+/**
+ * Компонент редактора сообщений
+ * onClose - функция закрытия окна предварительного просмотра
+ * isOpen - флаг открытого окна предварительного просмотра
+ * arrVarNames - массив имен переменных
+ * template - объект шаблона
+ */
 
 export const TemplatePreview = memo((props: TemplatePreviewProps) => {
   const { onClose, isOpen, arrVarNames, template } = props;

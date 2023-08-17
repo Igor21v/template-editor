@@ -22,6 +22,15 @@ interface TemplateEditorProps {
   template: TemplateType;
 }
 
+/**
+ * Компонент редактора сообщений
+ * className - позволяет задать стиль компанента снаружи
+ * closeHandler - функция закрытия редактора сообщений
+ * callbackSave - функция сохранения шаблона сообщения
+ * arrVarNames - массив имен переменных
+ * template - объект шаблона
+ */
+
 export const TemplateEditor = memo((props: TemplateEditorProps) => {
   const {
     className,
@@ -30,9 +39,9 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
     arrVarNames,
     template: initTemplate,
   } = props;
-  const [isPreview, setIsPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const onClosePreview = () => {
-    setIsPreview(false);
+    setShowPreview(false);
   };
   const [template, setTemplate] = useState(initTemplate || emptyTemplate);
   const changeTemplate = useCallback((value: TemplateType) => {
@@ -61,13 +70,13 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       <BottomBar
         closeHandler={closeHandler}
         callbackSave={callbackSave}
-        setIsPreview={setIsPreview}
+        setShowPreview={setShowPreview}
         template={template}
       />
-      {isPreview && (
+      {showPreview && (
         <TemplatePreview
           onClose={onClosePreview}
-          isOpen={isPreview}
+          isOpen={showPreview}
           arrVarNames={arrVarNames}
           template={template}
         />
