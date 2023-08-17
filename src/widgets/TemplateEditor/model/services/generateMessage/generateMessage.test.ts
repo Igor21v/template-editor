@@ -1,5 +1,4 @@
 import { generateMessage } from './generateMessage';
-
 const emptyTemplate = {
   AFTER: {
     value: '',
