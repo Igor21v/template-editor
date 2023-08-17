@@ -1,4 +1,4 @@
-import { TemplateType } from '../types/TemplateType';
+import { TemplateType } from '../../types/TemplateType';
 
 export const generateMessage = (
   template: TemplateType,

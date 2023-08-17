@@ -7,7 +7,7 @@ import { Input } from 'shared/ui/Input';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Button } from 'shared/ui/Button';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
-import { generateMessage } from 'widgets/TemplateEditor/model/services/generateMessage';
+import { generateMessage } from 'widgets/TemplateEditor/model/services/generateMessage/generateMessage';
 
 interface TemplatePreviewProps {
   className?: string;
