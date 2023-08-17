@@ -1,9 +1,9 @@
-import { memo, useState } from "react";
-import cls from "./MainPage.module.css";
-import { classNames } from "shared/lib/classNames/classNames";
-import { TemplateEditor } from "widgets/TemplateEditor";
-import { Button } from "shared/ui/Button";
-import { VStack } from "shared/ui/Stack";
+import { memo, useState } from 'react';
+import cls from './MainPage.module.css';
+import { classNames } from 'shared/lib/classNames/classNames';
+import { TemplateEditor } from 'widgets/TemplateEditor';
+import { Button } from 'shared/ui/Button';
+import { VStack } from 'shared/ui/Stack';
 
 interface MainPageProps {
   className?: string;
@@ -12,12 +12,18 @@ interface MainPageProps {
 export const MainPage = memo((props: MainPageProps) => {
   const { className } = props;
   const [templIsOpen, setTemplIsOpen] = useState(true);
+
   const callbackSave = async () => {
     await new Promise((resolve) =>
-      setTimeout(() => console.log("Saved"), 1000)
+      setTimeout(() => console.log('Saved'), 1000),
     );
   };
-  const arrVarNames = ["firstname", "lastname", "company", "position"];
+  const arrVarNames = localStorage.arrVarNames
+    ? JSON.parse(localStorage.arrVarNames)
+    : ['firstname', 'lastname', 'company', 'position'];
+  const initTemplate = localStorage.template
+    ? JSON.parse(localStorage.template)
+    : null;
 
   if (templIsOpen) {
     return (
@@ -26,6 +32,7 @@ export const MainPage = memo((props: MainPageProps) => {
           closeHandler={() => setTemplIsOpen(false)}
           saveHandler={callbackSave}
           arrVarNames={arrVarNames}
+          initTemplate={initTemplate}
         />
       </div>
     );
