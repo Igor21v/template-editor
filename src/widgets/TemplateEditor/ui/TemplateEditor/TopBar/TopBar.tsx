@@ -1,9 +1,8 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import cls from './TopBar.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
-
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import { createIfBlock } from 'widgets/TemplateEditor/model/services/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';

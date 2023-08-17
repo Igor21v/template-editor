@@ -1,8 +1,7 @@
 import { memo } from 'react';
-import cls from './EditorContent.module.css';
 import { VStack } from 'shared/ui/Stack';
 import { Card } from 'shared/ui/Card';
-import { EditorBlockString } from './EditorBlockString';
+import { EditorString } from './EditorString';
 import { FocusType } from '../TemplateEditor';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
@@ -33,7 +32,7 @@ export const EditorContent = memo((props: EditorContentProps) => {
       //итерируемся по каждой строке в объекте
       Object.entries(templateBlock).forEach(([field, value]) => {
         templateStrings.push(
-          <EditorBlockString
+          <EditorString
             changeTemplate={changeTemplate}
             template={template}
             nesting={nesting}

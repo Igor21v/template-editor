@@ -27,7 +27,7 @@ interface EditorBlockStringProps {
  * setPosition - функция запоминания позиции курсора
  */
 
-export const EditorBlockString = memo((props: EditorBlockStringProps) => {
+export const EditorString = memo((props: EditorBlockStringProps) => {
   const { nesting, value, path, changeTemplate, template, setFocus } = props;
 
   const areaOnChangeHandler = (path: string[]) => {

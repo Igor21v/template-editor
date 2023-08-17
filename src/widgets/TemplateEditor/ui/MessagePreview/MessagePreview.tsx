@@ -1,5 +1,4 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-import cls from './MessagePreview.module.css';
 import { Modal } from 'shared/ui/Modal';
 import { HStack, VStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
