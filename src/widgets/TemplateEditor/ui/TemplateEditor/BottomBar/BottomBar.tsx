@@ -2,20 +2,25 @@ import { memo } from 'react';
 import cls from './BottomBar.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { Button } from 'shared/ui/Button';
+import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface BottomBarProps {
   closeHandler: () => void;
-  saveHandler: () => void;
+  callbackSave: (template: TemplateType) => void;
   setIsPreview: (val: boolean) => void;
+  template: TemplateType;
 }
 
 export const BottomBar = memo((props: BottomBarProps) => {
-  const { closeHandler, saveHandler, setIsPreview } = props;
+  const { closeHandler, callbackSave, setIsPreview, template } = props;
   const preventDefault = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
   };
   const onShowPreview = () => {
     setIsPreview(true);
+  };
+  const saveHandler = () => {
+    callbackSave(template);
   };
 
   return (

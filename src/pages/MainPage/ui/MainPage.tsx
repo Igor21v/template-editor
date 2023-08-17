@@ -4,6 +4,7 @@ import { classNames } from 'shared/lib/classNames/classNames';
 import { TemplateEditor } from 'widgets/TemplateEditor';
 import { Button } from 'shared/ui/Button';
 import { VStack } from 'shared/ui/Stack';
+import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface MainPageProps {
   className?: string;
@@ -13,10 +14,8 @@ export const MainPage = memo((props: MainPageProps) => {
   const { className } = props;
   const [templIsOpen, setTemplIsOpen] = useState(true);
 
-  const callbackSave = async () => {
-    await new Promise((resolve) =>
-      setTimeout(() => console.log('Saved'), 1000),
-    );
+  const callbackSave = (template: TemplateType) => {
+    localStorage.template = JSON.stringify(template);
   };
   const arrVarNames = localStorage.arrVarNames
     ? JSON.parse(localStorage.arrVarNames)
@@ -29,10 +28,10 @@ export const MainPage = memo((props: MainPageProps) => {
     return (
       <div className={classNames(cls.MainPage, {}, [className])}>
         <TemplateEditor
-          closeHandler={() => setTemplIsOpen(false)}
-          saveHandler={callbackSave}
+          callbackSave={callbackSave}
           arrVarNames={arrVarNames}
-          initTemplate={initTemplate}
+          template={initTemplate}
+          closeHandler={() => setTemplIsOpen(false)}
         />
       </div>
     );

@@ -7,6 +7,7 @@ import { EditorContent } from './EditorContent/EditorContent';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 import { TopBar } from './TopBar/TopBar';
 import { BottomBar } from './BottomBar/BottomBar';
+import { emptyTemplate } from 'widgets/TemplateEditor/model/services/createIfBlock';
 
 export interface FocusType {
   path: string[];
@@ -16,19 +17,24 @@ export interface FocusType {
 interface TemplateEditorProps {
   className?: string;
   closeHandler: () => void;
-  saveHandler: () => void;
+  callbackSave: (template: TemplateType) => void;
   arrVarNames: string[];
-  initTemplate: TemplateType;
+  template: TemplateType;
 }
 
 export const TemplateEditor = memo((props: TemplateEditorProps) => {
-  const { className, closeHandler, saveHandler, arrVarNames, initTemplate } =
-    props;
+  const {
+    className,
+    closeHandler,
+    callbackSave,
+    arrVarNames,
+    template: initTemplate,
+  } = props;
   const [isPreview, setIsPreview] = useState(false);
   const onClosePreview = () => {
     setIsPreview(false);
   };
-  const [template, setTemplate] = useState(initTemplate);
+  const [template, setTemplate] = useState(initTemplate || emptyTemplate);
   const changeTemplate = useCallback((value: TemplateType) => {
     setTemplate(value);
   }, []);
@@ -54,8 +60,9 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       />
       <BottomBar
         closeHandler={closeHandler}
-        saveHandler={saveHandler}
+        callbackSave={callbackSave}
         setIsPreview={setIsPreview}
+        template={template}
       />
       {isPreview && (
         <TemplatePreview

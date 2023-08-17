@@ -17,7 +17,7 @@ export const createIfBlock = (afterValue = '') => ({
   },
 });
 
-export const initTemplate: TemplateType = {
+export const emptyTemplate: TemplateType = {
   AFTER: {
     value: '',
     next: [],
