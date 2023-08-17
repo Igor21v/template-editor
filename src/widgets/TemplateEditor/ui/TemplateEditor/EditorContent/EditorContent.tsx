@@ -6,16 +6,16 @@ import { FocusType } from '../TemplateEditor';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface EditorContentProps {
-  className?: string;
   template: TemplateType;
   changeTemplate: (value: TemplateType) => void;
   setFocus: (path: FocusType) => void;
 }
 
 /**
- * Компонент рендера блока условий
+ * Компонент содержимого шаблона сообщения
  * template - объект шаблона
  * changeTemplate - функция изменения template
+ * setFocus - функция запоминания фокуса и положения курсора
  */
 
 export const EditorContent = memo((props: EditorContentProps) => {
