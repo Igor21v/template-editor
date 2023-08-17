@@ -13,6 +13,17 @@ interface TextAreaAutosizeProps {
   autoFocus?: boolean;
 }
 
+/**
+ * Компонент растягивающегося TextArea
+ * className - стили
+ * value - значение
+ * onChange - функция изменения значения TextTheme
+ * readOnly - только чтение
+ * onFocus - колбэк вызываемый при установке фокуса
+ * onSelect - колбэк вызываемый при выделении
+ * autoFocus - установка фокуса после рендера компонента
+ */
+
 export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
   const { className, value, onChange, readOnly, onFocus, onSelect, autoFocus } =
     props;

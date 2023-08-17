@@ -22,7 +22,7 @@ interface EditorStringProps {
  * nesting - уровень вложенности условия (для сдвига блока условия вправо)
  * value - значение строки
  * changeTemplate - функция изменения template
- * path - путь до объекта (формат ['IF','next','THEN','next', 'ELSE])
+ * path - путь до объекта (формат ['IF','next', '0','THEN','next', '1', 'ELSE])
  * template - объект шаблона
  * setFocus - функция запоминания фокуса
  */

@@ -1,10 +1,9 @@
 import { memo, useState } from 'react';
 import cls from './MainPage.module.css';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { TemplateEditor } from 'widgets/TemplateEditor';
+import { TemplateEditor, TemplateType } from 'widgets/TemplateEditor';
 import { Button } from 'shared/ui/Button';
 import { VStack } from 'shared/ui/Stack';
-import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
 interface MainPageProps {
   className?: string;

@@ -8,7 +8,7 @@ import { Button } from 'shared/ui/Button';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 import { generateMessage } from 'widgets/TemplateEditor/model/services/generateMessage/generateMessage';
 
-interface TemplatePreviewProps {
+interface MessagePreviewProps {
   onClose?: () => void;
   isOpen: boolean;
   arrVarNames: string[];
@@ -23,7 +23,7 @@ interface TemplatePreviewProps {
  * template - объект шаблона
  */
 
-export const TemplatePreview = memo((props: TemplatePreviewProps) => {
+export const MessagePreview = memo((props: MessagePreviewProps) => {
   const { onClose, isOpen, arrVarNames, template } = props;
   const [needModalClose, setNeedModalClose] = useState(false);
   const resetNeedModalClose = useCallback(() => {

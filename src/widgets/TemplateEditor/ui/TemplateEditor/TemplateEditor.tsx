@@ -2,7 +2,7 @@ import { memo, useCallback, useState } from 'react';
 import cls from './TemplateEditor.module.css';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { VStack } from 'shared/ui/Stack';
-import { TemplatePreview } from '../MessagePreview/MessagePreview';
+import { MessagePreview } from '../MessagePreview/MessagePreview';
 import { EditorContent } from './EditorContent/EditorContent';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 import { TopBar } from './TopBar/TopBar';
@@ -74,7 +74,7 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
         template={template}
       />
       {showPreview && (
-        <TemplatePreview
+        <MessagePreview
           onClose={onClosePreview}
           isOpen={showPreview}
           arrVarNames={arrVarNames}

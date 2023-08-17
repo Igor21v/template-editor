@@ -1,25 +1,25 @@
-import { memo } from "react";
-import { classNames } from "shared/lib/classNames/classNames";
-import cls from "./Text.module.css";
+import { memo } from 'react';
+import { classNames } from 'shared/lib/classNames/classNames';
+import cls from './Text.module.css';
 
 export enum TextTheme {
-  PRIMARY = "primary",
-  INVERTED = "inverted",
-  ERROR = "error",
-  SUCCESS = "success",
-  BRIGHT = "bright",
-  INVERTED_BRIGHT = "inverted_bright",
+  PRIMARY = 'primary',
+  INVERTED = 'inverted',
+  ERROR = 'error',
+  SUCCESS = 'success',
+  BRIGHT = 'bright',
+  INVERTED_BRIGHT = 'inverted_bright',
 }
 
-type TextAlign = "right" | "left" | "center";
+type TextAlign = 'right' | 'left' | 'center';
 
 export enum TextSize {
-  S = "size_s",
-  M = "size_m",
-  L = "size_l",
+  S = 'size_s',
+  M = 'size_m',
+  L = 'size_l',
 }
 
-type HeaderTagType = "h1" | "h2" | "h3" | "p";
+type HeaderTagType = 'h1' | 'h2' | 'h3' | 'p';
 
 export interface TextProps {
   className?: string;
@@ -36,15 +36,28 @@ export interface TextProps {
   badge?: boolean;
 }
 
+/**
+ * Компонент текста
+ * title - заголовок
+ * text - текст
+ * theme - тема TextTheme
+ * align - выравнивание
+ * size - размер TextSize
+ * HeaderTag - тег для title
+ * italic - добавляет курсив
+ * minLineHeight - уменьшает междустрочный интервал
+ * badge - превращает текст в значек
+ */
+
 export const Text = memo((props: TextProps) => {
   const {
     className,
     title,
     text,
     theme = TextTheme.PRIMARY,
-    align = "left",
+    align = 'left',
     size = TextSize.M,
-    HeaderTag = "p",
+    HeaderTag = 'p',
     italic,
     classNameTitle,
     classNameText,
@@ -58,7 +71,7 @@ export const Text = memo((props: TextProps) => {
     [cls.minLineHeight]: minLineHeight,
   };
   return (
-    <div className={classNames("", mods, additional)}>
+    <div className={classNames('', mods, additional)}>
       {title && (
         <HeaderTag className={classNames(cls.title, {}, [classNameTitle])}>
           {title}
