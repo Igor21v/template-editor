@@ -29,7 +29,7 @@ export const TemplatePreview = memo((props: TemplatePreviewProps) => {
   const getInitValues = (arrVarNames: string[]) => {
     const initValues: Record<string, string> = {};
     arrVarNames.forEach((item) => {
-      initValues[item] = 'Igor';
+      initValues[item] = '';
     });
     return initValues;
   };

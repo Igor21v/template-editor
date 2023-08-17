@@ -26,10 +26,8 @@ export const generateMessage = (
       if (field === 'IF') {
         if (getRowVal()) {
           ifResult = true;
-          console.log('Условие выполнено');
         } else {
           ifResult = false;
-          console.log('Условие НЕ выполнено');
         }
       } else if (
         (field === 'THEN' && ifResult) ||

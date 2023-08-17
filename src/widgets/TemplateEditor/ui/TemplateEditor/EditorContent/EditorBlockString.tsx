@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import cls from './EditorBlocks.module.css';
+import cls from './EditorContent.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Text } from 'shared/ui/Text';

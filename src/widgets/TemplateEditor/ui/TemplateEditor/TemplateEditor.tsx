@@ -1,15 +1,15 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import cls from './TemplateEditor.module.css';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { HStack, VStack } from 'shared/ui/Stack';
-import { Button } from 'shared/ui/Button';
+import { VStack } from 'shared/ui/Stack';
 import { TemplatePreview } from '../MessagePreview/MessagePreview';
 
-import { EditorBlocks } from './EditorBlocks/EditorBlocks';
+import { EditorContent } from './EditorContent/EditorContent';
 
 import { initTemplate } from 'widgets/TemplateEditor/model/services/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
-import { EditorTop } from './EditorTop/EditorTop';
+import { TopBar } from './TopBar/TopBar';
+import { BottomBar } from './BottomBar/BottomBar';
 
 export interface FocusType {
   path: string[];
@@ -29,18 +29,11 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
   const onClosePreview = () => {
     setIsPreview(false);
   };
-  const onShowPreview = () => {
-    setIsPreview(true);
-  };
   const [template, setTemplate] = useState(initTemplate);
   const changeTemplate = useCallback((value: TemplateType) => {
     setTemplate(value);
   }, []);
   const [focus, setFocus] = useState<FocusType>({ path: ['AFTER'] });
-
-  const preventDefault = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-  };
 
   return (
     <VStack
@@ -49,30 +42,22 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       max
       gap="16"
     >
-      <EditorTop
+      <TopBar
         arrVarNames={arrVarNames}
         changeTemplate={changeTemplate}
         template={template}
         focus={focus}
       />
-      <EditorBlocks
+      <EditorContent
         template={template}
         changeTemplate={changeTemplate}
         setFocus={setFocus}
       />
-      <HStack max justify="center" gap="64">
-        <Button onClick={onShowPreview}>Preview</Button>
-        <Button
-          theme="outlineGreen"
-          onClick={saveHandler}
-          onMouseDown={preventDefault}
-        >
-          Save
-        </Button>
-        <Button theme="outlineRed" onClick={closeHandler}>
-          Close
-        </Button>
-      </HStack>
+      <BottomBar
+        closeHandler={closeHandler}
+        saveHandler={saveHandler}
+        setIsPreview={setIsPreview}
+      />
       {isPreview && (
         <TemplatePreview
           onClose={onClosePreview}

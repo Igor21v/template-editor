@@ -1,12 +1,12 @@
 import { memo } from 'react';
-import cls from './EditorBlocks.module.css';
+import cls from './EditorContent.module.css';
 import { VStack } from 'shared/ui/Stack';
 import { Card } from 'shared/ui/Card';
 import { EditorBlockString } from './EditorBlockString';
 import { FocusType } from '../TemplateEditor';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 
-interface EditorBlocksProps {
+interface EditorContentProps {
   className?: string;
   template: TemplateType;
   changeTemplate: (value: TemplateType) => void;
@@ -19,7 +19,7 @@ interface EditorBlocksProps {
  * changeTemplate - функция изменения template
  */
 
-export const EditorBlocks = memo((props: EditorBlocksProps) => {
+export const EditorContent = memo((props: EditorContentProps) => {
   const { template, changeTemplate, setFocus: setPosition } = props;
 
   //Функция рендера блока условий из объекта

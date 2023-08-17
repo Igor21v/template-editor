@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react';
-import cls from './EditorTop.module.css';
+import cls from './TopBar.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { Text } from 'shared/ui/Text';
 import { Button } from 'shared/ui/Button';
@@ -16,7 +16,7 @@ interface TemplateEditorProps {
   focus: FocusType;
 }
 
-export const EditorTop = memo((props: TemplateEditorProps) => {
+export const TopBar = memo((props: TemplateEditorProps) => {
   const { arrVarNames, changeTemplate, template, focus } = props;
 
   const addBlock = () => {
@@ -55,7 +55,6 @@ export const EditorTop = memo((props: TemplateEditorProps) => {
     const path = focus.path;
     const property = getPropertyFromPath(path, templateClone);
     const propertyVal = property.value;
-    console.log(focus.position);
     property.value =
       propertyVal.substring(0, focus.position) +
       '{' +
