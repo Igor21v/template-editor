@@ -1,2 +1,8 @@
 .BottomBar {
 }
+
+.saveButton {
+  background: var(--green-dark-color);
+  color: var(--inverted-primary-color);
+  border: 1px solid var(--green-dark-color);
+}

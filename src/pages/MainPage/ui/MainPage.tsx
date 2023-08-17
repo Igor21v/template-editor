@@ -14,12 +14,22 @@ export const MainPage = memo((props: MainPageProps) => {
   const { className } = props;
   const [templIsOpen, setTemplIsOpen] = useState(true);
 
-  const callbackSave = (template: TemplateType) => {
-    localStorage.template = JSON.stringify(template);
+  //асинхронная функция сохранения шаблона
+  const callbackSave = async (template: TemplateType) => {
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        localStorage.template = JSON.stringify(template);
+        resolve(null);
+      }, 500),
+    );
   };
+
+  //массив имен переменных
   const arrVarNames = localStorage.arrVarNames
     ? JSON.parse(localStorage.arrVarNames)
     : ['firstname', 'lastname', 'company', 'position'];
+
+  //шаблон сообщения
   const initTemplate = localStorage.template
     ? JSON.parse(localStorage.template)
     : null;

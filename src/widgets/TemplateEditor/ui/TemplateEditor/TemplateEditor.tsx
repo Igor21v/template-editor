@@ -17,7 +17,7 @@ export interface FocusType {
 interface TemplateEditorProps {
   className?: string;
   closeHandler: () => void;
-  callbackSave: (template: TemplateType) => void;
+  callbackSave: (template: TemplateType) => Promise<void>;
   arrVarNames: string[];
   template: TemplateType;
 }

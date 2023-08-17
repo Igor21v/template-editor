@@ -1,12 +1,13 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import cls from './BottomBar.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { Button } from 'shared/ui/Button';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
+import { classNames } from 'shared/lib/classNames/classNames';
 
 interface BottomBarProps {
   closeHandler: () => void;
-  callbackSave: (template: TemplateType) => void;
+  callbackSave: (template: TemplateType) => Promise<void>;
   setIsPreview: (val: boolean) => void;
   template: TemplateType;
 }
@@ -19,8 +20,11 @@ export const BottomBar = memo((props: BottomBarProps) => {
   const onShowPreview = () => {
     setIsPreview(true);
   };
-  const saveHandler = () => {
-    callbackSave(template);
+  const [seved, setSaved] = useState(false);
+  const saveHandler = async () => {
+    setSaved(false);
+    await callbackSave(template);
+    setSaved(true);
   };
 
   return (
@@ -30,6 +34,7 @@ export const BottomBar = memo((props: BottomBarProps) => {
         theme="outlineGreen"
         onClick={saveHandler}
         onMouseDown={preventDefault}
+        className={classNames('', { [cls.saveButton]: seved })}
       >
         Save
       </Button>
