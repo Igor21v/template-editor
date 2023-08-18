@@ -4,12 +4,14 @@ import { TemplateType } from '../../types/TemplateType';
  *
  * @param template шаблон сообщения
  * @param values значения переменных (объект вида {name : value})
+ * @param arrVarNames массив имен переменных
  * @returns сгенерированная строка сообщения
  */
 
 export const generateMessage = (
   template: TemplateType,
   values: Record<string, string>,
+  arrVarNames: string[],
 ) => {
   let message = '';
 
@@ -24,8 +26,9 @@ export const generateMessage = (
       //функция получение стороки с замененными переменными
       const getRowVal = () => {
         let rowVal = fieldVal.value;
-        Object.entries(values).forEach(([key, value]) => {
+        arrVarNames.forEach((key) => {
           const regul = new RegExp(`{${key}}`, 'g');
+          const value = values[key] ?? '';
           rowVal = rowVal.replace(regul, value);
         });
         return rowVal;

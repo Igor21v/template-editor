@@ -42,7 +42,7 @@ export const MessagePreview = memo((props: MessagePreviewProps) => {
   };
 
   const [values, setValues] = useState(getInitValues(arrVarNames));
-  const message = generateMessage(template, values);
+  const message = generateMessage(template, values, arrVarNames);
 
   const inputs = useMemo(
     () => (values: Record<string, string>) => {

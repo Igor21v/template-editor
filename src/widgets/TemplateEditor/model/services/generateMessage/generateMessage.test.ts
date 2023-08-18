@@ -4,40 +4,71 @@ describe('Generate Message', () => {
   it('Shuld return empty message when template is empty', () => {
     const template = getEmtyTemplate();
     const values = {};
-    const message = generateMessage(template, values);
+    const arrVarNames = Object.keys(values);
+    const message = generateMessage(template, values, arrVarNames);
     expect(message).toBe('');
   });
   it('Genaerating a message from one string', () => {
     const template = getOneStringTemplate();
     const values = {};
-    const message = generateMessage(template, values);
+    const arrVarNames = Object.keys(values);
+    const message = generateMessage(template, values, arrVarNames);
     expect(message).toBe('Test string');
   });
+
+  it('Generating messages with variable', () => {
+    const template = getTemplateOneVar();
+    const values = { firstname: 'Igor' };
+    const arrVarNames = ['firstname'];
+    const message = generateMessage(template, values, arrVarNames);
+    const expected = `Hi Igor`;
+    expect(message).toBe(expected);
+  });
+  it('Generating messages without a field in values', () => {
+    const template = getTemplateOneVar();
+    const values = {};
+    const arrVarNames = ['firstname'];
+    const message = generateMessage(template, values, arrVarNames);
+    const expected = `Hi `;
+    expect(message).toBe(expected);
+  });
+  it('Generating messages with an unknown variable', () => {
+    const template = getTemplateOneVar();
+    const values = {};
+    const arrVarNames: string[] = [];
+    const message = generateMessage(template, values, arrVarNames);
+    const expected = `Hi {firstname}`;
+    expect(message).toBe(expected);
+  });
+
   it('Generating messages with empty variable', () => {
-    const template = getTemplate();
+    const template = getTemplateManyVars();
     const values = getVars('', '', '', '');
-    const message = generateMessage(template, values);
+    const arrVarNames = Object.keys(values);
+    const message = generateMessage(template, values, arrVarNames);
     const expected = `Hi dear friend! I do not know where you work now. I suggest you work in our company.
 Waiting for your message)`;
     expect(message).toBe(expected);
   });
   it('Generating messages with name and lastname', () => {
-    const template = getTemplate();
+    const template = getTemplateManyVars();
     const values = getVars('Igor', 'Bondarenko', '', '');
-    const message = generateMessage(template, values);
+    const arrVarNames = Object.keys(values);
+    const message = generateMessage(template, values, arrVarNames);
     const expected = `Hi Igor Bondarenko! I do not know where you work now. I suggest you work in our company.
 Waiting for your message)`;
     expect(message).toBe(expected);
   });
   it('Generating messages when all fields are filled in', () => {
-    const template = getTemplate();
+    const template = getTemplateManyVars();
     const values = getVars(
       'Igor',
       'Bondarenko',
       '"Horns and Hooves"',
       'Engineer',
     );
-    const message = generateMessage(template, values);
+    const arrVarNames = Object.keys(values);
+    const message = generateMessage(template, values, arrVarNames);
     const expected = `Hi Igor Bondarenko! I know that you work for the company "Horns and Hooves" in the position of Engineer. I suggest you work in our company.
 Waiting for your message)`;
     expect(message).toBe(expected);
@@ -75,7 +106,10 @@ function getOneStringTemplate() {
     },
   };
 }
-function getTemplate() {
+function getTemplateOneVar() {
+  return { AFTER: { value: 'Hi {firstname}', next: [] } };
+}
+function getTemplateManyVars() {
   return {
     AFTER: {
       value: 'Hi ',
