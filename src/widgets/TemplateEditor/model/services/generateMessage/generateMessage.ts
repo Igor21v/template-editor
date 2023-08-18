@@ -1,7 +1,7 @@
 import { TemplateType } from '../../types/TemplateType';
 
 /**
- *
+ *Функция генерации сообщения
  * @param template шаблон сообщения
  * @param values значения переменных (объект вида {name : value})
  * @param arrVarNames массив имен переменных
