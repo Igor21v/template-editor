@@ -16,19 +16,19 @@ export interface FocusType {
 
 interface TemplateEditorProps {
   className?: string;
-  closeHandler: () => void;
   callbackSave: (template: TemplateType) => Promise<void>;
   arrVarNames: string[];
   template: TemplateType;
+  closeHandler: () => void;
 }
 
 /**
  * Компонент редактора сообщений
  * className - позволяет задать стиль компанента снаружи
- * closeHandler - функция закрытия редактора сообщений
  * callbackSave - функция сохранения шаблона сообщения
  * arrVarNames - массив имен переменных
  * template - объект шаблона
+ * closeHandler - функция закрытия редактора сообщений
  */
 
 export const TemplateEditor = (props: TemplateEditorProps) => {

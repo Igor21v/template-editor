@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useRef, useState, useCallback } from 'react';
 import cls from './EditorContent.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
@@ -33,49 +33,61 @@ export const EditorString = memo((props: EditorStringProps) => {
     props;
 
   const [areaVal, setAreaVal] = useState(initValue);
+  // Флаг изменения значения с функции areaOnChangeHandler(ввод в поле)
+  const changesFromArea = useRef(false);
   // Функция записи значения поля в шаблон (с задержкой для исключения подвисаний интерфейса)
   const areaValToTemplate = useDebounce((value) => {
     const templateClone = JSON.parse(JSON.stringify(template));
-    const propertyVal = getPropertyFromPath(path, templateClone);
-    propertyVal.value = value;
+    const propertyValClone = getPropertyFromPath(path, templateClone);
+    propertyValClone.value = value;
     changeTemplate(templateClone);
-  }, 300);
-
-  const areaOnChangeHandler = (path: string[]) => {
-    return (value: string) => {
-      setAreaVal(value);
-      areaValToTemplate(value);
-    };
-  };
-
-  const deleteHandler = (path: string[]) => {
-    return () => {
-      let templateClone = JSON.parse(JSON.stringify(template));
-      const index = parseInt(path.slice(-2, -1)[0]);
-      // Вычисляем родительский блок
-      const parentPropertyPath = path.slice(0, -3);
-      const parentProperty = getPropertyFromPath(
-        parentPropertyPath,
-        templateClone,
-      );
-      // Добавляем текст с удаляемого блока на верхний блок
-      let concatPath = parentPropertyPath;
-      // Если есть блок токо же уровня сверху то добавляем в него
-      if (index > 0) {
-        concatPath = [...parentPropertyPath, 'next', `${index - 1}`, 'AFTER'];
-      }
-      const concatProperty = getPropertyFromPath(concatPath, templateClone);
-      concatProperty.value =
-        concatProperty.value + parentProperty.next[index].AFTER.value;
-      parentProperty.next.splice(index, 1);
-      changeTemplate(templateClone);
-      setFocus({ path: ['AFTER'], position: 0 });
-    };
-  };
-
-  const setPositionHandler = (path: string[]) => (selectionStart?: number) => {
-    setFocus({ path, position: selectionStart });
-  };
+    changesFromArea.current = false;
+  }, 100);
+  // Проверяем совпадает ли значение с шаблоном
+  const propertyVal = getPropertyFromPath(path, template);
+  if (propertyVal.value !== areaVal) {
+    // Если есть флаг измений с поля, то пишем в шаблон, иначе в поле
+    if (changesFromArea.current) {
+      areaValToTemplate(areaVal);
+    } else {
+      setAreaVal(propertyVal.value);
+    }
+  }
+  // Функция изменения поля
+  const areaOnChangeHandler = useCallback((value: string) => {
+    changesFromArea.current = true;
+    setAreaVal(value);
+  }, []);
+  // Функция удаления блока условия
+  const deleteHandler = useCallback(() => {
+    let templateClone = JSON.parse(JSON.stringify(template));
+    const index = parseInt(path.slice(-2, -1)[0]);
+    // Вычисляем родительский блок
+    const parentPropertyPath = path.slice(0, -3);
+    const parentProperty = getPropertyFromPath(
+      parentPropertyPath,
+      templateClone,
+    );
+    // Добавляем текст с удаляемого блока на верхний блок
+    let concatPath = parentPropertyPath;
+    // Если есть блок токо же уровня сверху то добавляем в него
+    if (index > 0) {
+      concatPath = [...parentPropertyPath, 'next', `${index - 1}`, 'AFTER'];
+    }
+    const concatProperty = getPropertyFromPath(concatPath, templateClone);
+    concatProperty.value =
+      concatProperty.value + parentProperty.next[index].AFTER.value;
+    parentProperty.next.splice(index, 1);
+    changeTemplate(templateClone);
+    setFocus({ path: ['AFTER'], position: 0 });
+  }, [changeTemplate, path, setFocus, template]);
+  // Функция запоминания позиции курсора
+  const setPositionHandler = useCallback(
+    (selectionStart?: number) => {
+      setFocus({ path, position: selectionStart });
+    },
+    [path, setFocus],
+  );
 
   let content = null;
   switch (path.at(-1)) {
@@ -84,8 +96,8 @@ export const EditorString = memo((props: EditorStringProps) => {
         <HStack justify="between" max>
           <TextAreaAutosize
             value={areaVal}
-            onChange={areaOnChangeHandler(path)}
-            onSelect={setPositionHandler(path)}
+            onChange={areaOnChangeHandler}
+            onSelect={setPositionHandler}
             autoFocus={!nesting}
           />
         </HStack>
@@ -96,18 +108,14 @@ export const EditorString = memo((props: EditorStringProps) => {
         <HStack justify="between" max>
           <HStack className={cls.firstCol} gap="32" align="center">
             <Text text="IF" badge />
-            <Button
-              theme="background"
-              size="size_s"
-              onClick={deleteHandler(path)}
-            >
+            <Button theme="background" size="size_s" onClick={deleteHandler}>
               Delete
             </Button>
           </HStack>
           <TextAreaAutosize
             value={areaVal}
-            onChange={areaOnChangeHandler(path)}
-            onSelect={setPositionHandler(path)}
+            onChange={areaOnChangeHandler}
+            onSelect={setPositionHandler}
           />
         </HStack>
       );
@@ -118,8 +126,8 @@ export const EditorString = memo((props: EditorStringProps) => {
           <Text text={path.at(-1)} badge className={cls.firstCol} />
           <TextAreaAutosize
             value={areaVal}
-            onChange={areaOnChangeHandler(path)}
-            onSelect={setPositionHandler(path)}
+            onChange={areaOnChangeHandler}
+            onSelect={setPositionHandler}
           />
         </HStack>
       );
