@@ -7,6 +7,7 @@ import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
 import { Button } from 'shared/ui/Button';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 import { generateMessage } from 'widgets/TemplateEditor/model/services/generateMessage/generateMessage';
+import cls from './MessagePreview.module.css';
 
 interface MessagePreviewProps {
   onClose?: () => void;
@@ -70,7 +71,7 @@ export const MessagePreview = memo((props: MessagePreviewProps) => {
       needModalClose={needModalClose}
       resetNeedModalClose={resetNeedModalClose}
     >
-      <VStack gap="8" align="center">
+      <VStack gap="8" align="center" className={cls.MessagePreview}>
         <Text title="Message Preview" />
         <TextAreaAutosize readOnly value={message} />
         <HStack wrap gap="8">

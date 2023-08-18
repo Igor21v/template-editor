@@ -21,7 +21,7 @@ interface EditorContentProps {
 export const EditorContent = memo((props: EditorContentProps) => {
   const { template, changeTemplate, setFocus: setPosition } = props;
 
-  //Функция рендера блока условий из объекта
+  //Функция рендера блока условий из объекта шаблона
   const renderEditorBlocks = () => {
     let templateStrings: JSX.Element[] = [];
     const renderItemBlock = (
@@ -37,7 +37,7 @@ export const EditorContent = memo((props: EditorContentProps) => {
             template={template}
             nesting={nesting}
             path={[...path, field]}
-            value={value.value}
+            initValue={value.value}
             setFocus={setPosition}
             key={path?.join('') + field}
           />,

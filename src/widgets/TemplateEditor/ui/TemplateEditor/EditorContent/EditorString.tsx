@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import cls from './EditorContent.module.css';
 import { HStack } from 'shared/ui/Stack';
 import { TextAreaAutosize } from 'shared/ui/TextAreaAutosize';
@@ -7,10 +7,11 @@ import { Button } from 'shared/ui/Button';
 import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import { FocusType } from '../TemplateEditor';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
+import { useDebounce } from 'shared/lib/hooks/useDebounce/useDebounce';
 
 interface EditorStringProps {
   nesting: number;
-  value: string;
+  initValue: string;
   changeTemplate: (value: TemplateType) => void;
   path: string[];
   template: TemplateType;
@@ -20,7 +21,7 @@ interface EditorStringProps {
 /**
  * Компонент рендера строки блока условий
  * nesting - уровень вложенности условия (для сдвига блока условия вправо)
- * value - значение строки
+ * initValue - начальное значение строки
  * changeTemplate - функция изменения template
  * path - путь до объекта (формат ['IF','next', '0','THEN','next', '1', 'ELSE])
  * template - объект шаблона
@@ -28,14 +29,22 @@ interface EditorStringProps {
  */
 
 export const EditorString = memo((props: EditorStringProps) => {
-  const { nesting, value, path, changeTemplate, template, setFocus } = props;
+  const { nesting, initValue, path, changeTemplate, template, setFocus } =
+    props;
+
+  const [areaVal, setAreaVal] = useState(initValue);
+  // Функция записи значения поля в шаблон (с задержкой для исключения подвисаний интерфейса)
+  const areaValToTemplate = useDebounce((value) => {
+    const templateClone = JSON.parse(JSON.stringify(template));
+    const propertyVal = getPropertyFromPath(path, templateClone);
+    propertyVal.value = value;
+    changeTemplate(templateClone);
+  }, 300);
 
   const areaOnChangeHandler = (path: string[]) => {
-    return (value?: string) => {
-      const templateClone = JSON.parse(JSON.stringify(template));
-      const propertyVal = getPropertyFromPath(path, templateClone);
-      propertyVal.value = value;
-      changeTemplate(templateClone);
+    return (value: string) => {
+      setAreaVal(value);
+      areaValToTemplate(value);
     };
   };
 
@@ -49,7 +58,7 @@ export const EditorString = memo((props: EditorStringProps) => {
         parentPropertyPath,
         templateClone,
       );
-      // Добавляем текс с удаляемого блока на верхний блок
+      // Добавляем текст с удаляемого блока на верхний блок
       let concatPath = parentPropertyPath;
       // Если есть блок токо же уровня сверху то добавляем в него
       if (index > 0) {
@@ -74,7 +83,7 @@ export const EditorString = memo((props: EditorStringProps) => {
       content = (
         <HStack justify="between" max>
           <TextAreaAutosize
-            value={value}
+            value={areaVal}
             onChange={areaOnChangeHandler(path)}
             onSelect={setPositionHandler(path)}
             autoFocus={!nesting}
@@ -96,7 +105,7 @@ export const EditorString = memo((props: EditorStringProps) => {
             </Button>
           </HStack>
           <TextAreaAutosize
-            value={value}
+            value={areaVal}
             onChange={areaOnChangeHandler(path)}
             onSelect={setPositionHandler(path)}
           />
@@ -108,7 +117,7 @@ export const EditorString = memo((props: EditorStringProps) => {
         <HStack justify="between" max>
           <Text text={path.at(-1)} badge className={cls.firstCol} />
           <TextAreaAutosize
-            value={value}
+            value={areaVal}
             onChange={areaOnChangeHandler(path)}
             onSelect={setPositionHandler(path)}
           />

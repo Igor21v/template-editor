@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import cls from './TemplateEditor.module.css';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { VStack } from 'shared/ui/Stack';
@@ -31,7 +31,7 @@ interface TemplateEditorProps {
  * template - объект шаблона
  */
 
-export const TemplateEditor = memo((props: TemplateEditorProps) => {
+export const TemplateEditor = (props: TemplateEditorProps) => {
   const {
     className,
     closeHandler,
@@ -40,9 +40,9 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
     template: initTemplate,
   } = props;
   const [showPreview, setShowPreview] = useState(false);
-  const onClosePreview = () => {
+  const onClosePreview = useCallback(() => {
     setShowPreview(false);
-  };
+  }, []);
   const [template, setTemplate] = useState(initTemplate || emptyTemplate);
   const changeTemplate = useCallback((value: TemplateType) => {
     setTemplate(value);
@@ -83,4 +83,4 @@ export const TemplateEditor = memo((props: TemplateEditorProps) => {
       )}
     </VStack>
   );
-});
+};
