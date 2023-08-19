@@ -41,6 +41,15 @@ describe('Generate Message', () => {
     expect(message).toBe(expected);
   });
 
+  it('Generating messages with two variables in string, value variable as name of variable', () => {
+    const template = getTwoVarsInStringTemplate();
+    const values = { firstname: '{lastname}', lastname: 'Olia' };
+    const arrVarNames = ['firstname', 'lastname'];
+    const message = generateMessage(template, values, arrVarNames);
+    const expected = `{lastname}Olia`;
+    expect(message).toBe(expected);
+  });
+
   it('Generating messages with empty variable', () => {
     const template = getTemplateManyVars();
     const values = getVars('', '', '', '');
@@ -102,6 +111,14 @@ function getOneStringTemplate() {
   return {
     AFTER: {
       value: 'Test string',
+      next: [],
+    },
+  };
+}
+function getTwoVarsInStringTemplate() {
+  return {
+    AFTER: {
+      value: '{firstname}{lastname}',
       next: [],
     },
   };

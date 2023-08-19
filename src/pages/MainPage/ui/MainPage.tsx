@@ -11,7 +11,7 @@ interface MainPageProps {
 
 export const MainPage = memo((props: MainPageProps) => {
   const { className } = props;
-  const [templIsOpen, setTemplIsOpen] = useState(false);
+  const [templIsOpen, setTemplIsOpen] = useState(true);
 
   //асинхронная функция сохранения шаблона
   const callbackSave = async (template: TemplateType) => {
