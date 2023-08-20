@@ -64,7 +64,7 @@ export const EditorString = memo((props: EditorStringProps) => {
     } else {
       const newPosition =
         focus.position + (propertyVal.value.length - areaVal.length);
-      areaRef.current?.focus();
+      /* areaRef.current?.focus(); */
       setAreaVal(propertyVal.value);
       queueMicrotask(() =>
         areaRef.current?.setSelectionRange(newPosition, newPosition),

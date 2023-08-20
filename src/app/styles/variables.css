@@ -1,5 +1,5 @@
 :root {
-  --font-family-main: PT Sans, "Times New Roman", serif;
+  --font-family-main: PT Sans, 'Times New Roman', serif;
 
   /* s*/
   --font-size-s: 12px;
@@ -55,7 +55,6 @@
 
   /*card*/
   --card-bg: #2b2f31;
-  --inverted-card-bg: #090f11;
 
   /*listbox*/
   --listbox-bg: #151c1f;

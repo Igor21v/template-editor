@@ -4,6 +4,7 @@ import { Card } from 'shared/ui/Card';
 import { EditorString } from './EditorString';
 import { FocusType } from '../TemplateEditor';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
+import cls from './EditorContent.module.css';
 
 interface EditorContentProps {
   template: TemplateType;
@@ -57,7 +58,7 @@ export const EditorContent = memo((props: EditorContentProps) => {
   };
 
   return (
-    <Card max>
+    <Card max className={cls.EditorContent}>
       <VStack gap="8">{renderEditorBlocks()}</VStack>
     </Card>
   );

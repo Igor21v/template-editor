@@ -1,8 +1,26 @@
-@import "./reset";
+@import './reset';
 
 .app {
   font: var(--font-m);
   color: var(--primary-color);
   background: var(--bg-color);
-  overflow: auto;
+}
+/* настройка скроллбара для FireFox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--card-bg);
+}
+
+/* настройка скроллбара для Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 8px; /* ширина scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--card-bg); /* цвет дорожки */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* цвет плашки */
+  border-radius: 20px; /* закругления плашки */
 }
