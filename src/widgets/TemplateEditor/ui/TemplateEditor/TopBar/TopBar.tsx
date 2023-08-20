@@ -7,6 +7,7 @@ import { getPropertyFromPath } from 'shared/lib/getPropertyFromPath';
 import { createIfBlock } from 'widgets/TemplateEditor/model/services/createIfBlock';
 import { TemplateType } from 'widgets/TemplateEditor/model/types/TemplateType';
 import { FocusType } from '../TemplateEditor';
+import { stringSplice } from 'shared/lib/stringSplice/stringSplice';
 
 interface TemplateEditorProps {
   arrVarNames: string[];
@@ -61,12 +62,12 @@ export const TopBar = memo((props: TemplateEditorProps) => {
     const path = focus.path;
     const property = getPropertyFromPath(path, templateClone);
     const propertyVal = property.value;
-    property.value =
-      propertyVal.substring(0, focus.position) +
-      '{' +
-      variable +
-      '}' +
-      propertyVal.substring(focus.position);
+    property.value = stringSplice(
+      propertyVal,
+      focus.position,
+      0,
+      `{${variable}}`,
+    );
     changeTemplate(templateClone);
   };
 
