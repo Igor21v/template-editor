@@ -62,13 +62,19 @@ export const EditorString = memo((props: EditorStringProps) => {
     if (changesFromArea.current) {
       areaValToTemplate(areaVal);
     } else {
-      const newPosition =
-        focus.position + (propertyVal.value.length - areaVal.length);
-      /* areaRef.current?.focus(); */
+      // устанавливаем фокус
+      if (focus.path.join('') === path.join('')) {
+        areaRef.current?.focus();
+      }
       setAreaVal(propertyVal.value);
-      queueMicrotask(() =>
-        areaRef.current?.setSelectionRange(newPosition, newPosition),
-      );
+      // если добавили переменную то нужно установить новый фокус
+      if (propertyVal.value.length > areaVal.length) {
+        const newPosition =
+          focus.position + (propertyVal.value.length - areaVal.length);
+        queueMicrotask(() => {
+          areaRef.current?.setSelectionRange(newPosition, newPosition);
+        });
+      }
     }
   }
 

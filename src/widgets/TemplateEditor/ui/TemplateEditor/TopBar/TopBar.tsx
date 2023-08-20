@@ -52,7 +52,6 @@ export const TopBar = memo((props: TemplateEditorProps) => {
         );
         property.value = property.value.slice(0, focus.position);
       }
-
       changeTemplate(templateClone);
     }
   };
@@ -94,7 +93,12 @@ export const TopBar = memo((props: TemplateEditorProps) => {
       />
       <HStack max justify="between" align="center">
         <HStack gap="8">{renderVarNamemes()}</HStack>
-        <Button theme="backgroundInverted" size="size_m" onClick={addBlock}>
+        <Button
+          theme="backgroundInverted"
+          size="size_m"
+          onClick={addBlock}
+          onMouseDown={preventDefault}
+        >
           Click to add IF-THEN-ELSE block
         </Button>
       </HStack>
