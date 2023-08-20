@@ -26,6 +26,7 @@ interface EditorStringProps {
  * changeTemplate - функция изменения template
  * path - путь до объекта (формат ['IF','next', '0','THEN','next', '1', 'ELSE])
  * template - объект шаблона
+ * focus - текущая позиция фокуса
  * setFocus - функция запоминания фокуса
  */
 

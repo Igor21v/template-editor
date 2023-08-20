@@ -17,6 +17,7 @@ interface EditorContentProps {
  * Компонент содержимого шаблона сообщения
  * template - объект шаблона
  * changeTemplate - функция изменения template
+ * focus - текущая позиция фокуса
  * setFocus - функция запоминания фокуса
  */
 
