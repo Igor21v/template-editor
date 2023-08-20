@@ -15,7 +15,8 @@ interface EditorStringProps {
   changeTemplate: (value: TemplateType) => void;
   path: string[];
   template: TemplateType;
-  setFocus: (position: FocusType) => void;
+  setFocus: (focus: FocusType) => void;
+  focus: FocusType;
 }
 
 /**
@@ -29,12 +30,22 @@ interface EditorStringProps {
  */
 
 export const EditorString = memo((props: EditorStringProps) => {
-  const { nesting, initValue, path, changeTemplate, template, setFocus } =
-    props;
+  const {
+    nesting,
+    initValue,
+    path,
+    changeTemplate,
+    template,
+    setFocus,
+    focus,
+  } = props;
 
   const [areaVal, setAreaVal] = useState(initValue);
+
   // Флаг изменения значения с функции areaOnChangeHandler(ввод в поле)
   const changesFromArea = useRef(false);
+  const areaRef = useRef<HTMLTextAreaElement>(null);
+
   // Функция записи значения поля в шаблон (с задержкой для исключения подвисаний интерфейса)
   const areaValToTemplate = useDebounce((value) => {
     const templateClone = JSON.parse(JSON.stringify(template));
@@ -43,6 +54,7 @@ export const EditorString = memo((props: EditorStringProps) => {
     changeTemplate(templateClone);
     changesFromArea.current = false;
   }, 100);
+
   // Проверяем совпадает ли значение с шаблоном
   const propertyVal = getPropertyFromPath(path, template);
   if (propertyVal.value !== areaVal) {
@@ -50,14 +62,22 @@ export const EditorString = memo((props: EditorStringProps) => {
     if (changesFromArea.current) {
       areaValToTemplate(areaVal);
     } else {
+      const newPosition =
+        focus.position + (propertyVal.value.length - areaVal.length);
+      areaRef.current?.focus();
       setAreaVal(propertyVal.value);
+      queueMicrotask(() =>
+        areaRef.current?.setSelectionRange(newPosition, newPosition),
+      );
     }
   }
+
   // Функция изменения поля
   const areaOnChangeHandler = useCallback((value: string) => {
     changesFromArea.current = true;
     setAreaVal(value);
   }, []);
+
   // Функция удаления блока условия
   const deleteHandler = useCallback(() => {
     let templateClone = JSON.parse(JSON.stringify(template));
@@ -81,9 +101,10 @@ export const EditorString = memo((props: EditorStringProps) => {
     changeTemplate(templateClone);
     setFocus({ path: ['AFTER'], position: 0 });
   }, [changeTemplate, path, setFocus, template]);
+
   // Функция запоминания позиции курсора
   const setPositionHandler = useCallback(
-    (selectionStart?: number) => {
+    (selectionStart: number) => {
       setFocus({ path, position: selectionStart });
     },
     [path, setFocus],
@@ -95,6 +116,7 @@ export const EditorString = memo((props: EditorStringProps) => {
       content = (
         <HStack justify="between" max>
           <TextAreaAutosize
+            ref={areaRef}
             value={areaVal}
             onChange={areaOnChangeHandler}
             onSelect={setPositionHandler}
@@ -113,6 +135,7 @@ export const EditorString = memo((props: EditorStringProps) => {
             </Button>
           </HStack>
           <TextAreaAutosize
+            ref={areaRef}
             value={areaVal}
             onChange={areaOnChangeHandler}
             onSelect={setPositionHandler}
@@ -125,6 +148,7 @@ export const EditorString = memo((props: EditorStringProps) => {
         <HStack justify="between" max>
           <Text text={path.at(-1)} badge className={cls.firstCol} />
           <TextAreaAutosize
+            ref={areaRef}
             value={areaVal}
             onChange={areaOnChangeHandler}
             onSelect={setPositionHandler}

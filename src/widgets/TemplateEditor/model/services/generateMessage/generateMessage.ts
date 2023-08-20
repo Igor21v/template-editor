@@ -36,6 +36,7 @@ export const generateMessage = (
   return message;
 
   //функция получение совпадений переменных
+  //простая замена регуляркой не подходит, т.к. в данном случае возможно восприятие значений переменных как самих переменных
   function findMatches(
     templateBlock: TemplateType,
     nesting: number,

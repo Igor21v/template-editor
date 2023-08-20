@@ -9,6 +9,7 @@ interface EditorContentProps {
   template: TemplateType;
   changeTemplate: (value: TemplateType) => void;
   setFocus: (path: FocusType) => void;
+  focus: FocusType;
 }
 
 /**
@@ -19,7 +20,7 @@ interface EditorContentProps {
  */
 
 export const EditorContent = memo((props: EditorContentProps) => {
-  const { template, changeTemplate, setFocus: setPosition } = props;
+  const { template, changeTemplate, setFocus, focus } = props;
 
   //Функция рендера блока условий из объекта шаблона
   const renderEditorBlocks = () => {
@@ -38,7 +39,8 @@ export const EditorContent = memo((props: EditorContentProps) => {
             nesting={nesting}
             path={[...path, field]}
             initValue={value.value}
-            setFocus={setPosition}
+            focus={focus}
+            setFocus={setFocus}
             key={path?.join('') + field}
           />,
         );

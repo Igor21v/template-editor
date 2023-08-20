@@ -11,7 +11,7 @@ import { emptyTemplate } from 'widgets/TemplateEditor/model/services/createIfBlo
 
 export interface FocusType {
   path: string[];
-  position?: number;
+  position: number;
 }
 
 interface TemplateEditorProps {
@@ -47,7 +47,10 @@ export const TemplateEditor = (props: TemplateEditorProps) => {
   const changeTemplate = useCallback((value: TemplateType) => {
     setTemplate(value);
   }, []);
-  const [focus, setFocus] = useState<FocusType>({ path: ['AFTER'] });
+  const [focus, setFocus] = useState<FocusType>({
+    path: ['AFTER'],
+    position: 0,
+  });
 
   return (
     <VStack
@@ -66,6 +69,7 @@ export const TemplateEditor = (props: TemplateEditorProps) => {
         template={template}
         changeTemplate={changeTemplate}
         setFocus={setFocus}
+        focus={focus}
       />
       <BottomBar
         closeHandler={closeHandler}

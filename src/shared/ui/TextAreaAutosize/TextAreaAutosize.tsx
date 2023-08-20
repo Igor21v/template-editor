@@ -1,7 +1,8 @@
-import { memo, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import cls from './TextAreaAutosize.module.css';
 import { classNames, Mods } from 'shared/lib/classNames/classNames';
 import ReactTextareaAutosize from 'react-textarea-autosize';
+import React from 'react';
 
 interface TextAreaAutosizeProps {
   className?: string;
@@ -9,7 +10,7 @@ interface TextAreaAutosizeProps {
   onChange?: (value: string) => void;
   readOnly?: boolean;
   onFocus?: () => void;
-  onSelect?: (selectionStart?: number, selectionEnd?: number) => void;
+  onSelect?: (selectionStart: number, selectionEnd: number) => void;
   autoFocus?: boolean;
 }
 
@@ -24,16 +25,22 @@ interface TextAreaAutosizeProps {
  * autoFocus - установка фокуса после рендера компонента
  */
 
-export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
+export const TextAreaAutosize = forwardRef<
+  HTMLTextAreaElement,
+  TextAreaAutosizeProps
+>((props, ref) => {
   const { className, value, onChange, readOnly, onFocus, onSelect, autoFocus } =
     props;
-  const areaRef = useRef<HTMLTextAreaElement>(null);
-
+  /* const areaRef = useRef<HTMLTextAreaElement>(null); */
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange?.(e.target.value);
   };
+  const innerRef = useRef<HTMLTextAreaElement | null>(null);
   const selectHandler = () => {
-    onSelect?.(areaRef.current?.selectionStart, areaRef.current?.selectionEnd);
+    onSelect?.(
+      innerRef.current?.selectionStart || 0,
+      innerRef.current?.selectionEnd || 0,
+    );
   };
 
   const mods: Mods = {
@@ -50,7 +57,14 @@ export const TextAreaAutosize = memo((props: TextAreaAutosizeProps) => {
       style={{ resize: 'none' }}
       onFocus={onFocus}
       onSelect={selectHandler}
-      ref={areaRef}
+      ref={(node) => {
+        innerRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
       autoFocus={autoFocus}
     />
   );
